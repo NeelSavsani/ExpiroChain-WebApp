@@ -3,10 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <title>Login | EXPIROCHAIN</title>
-    <link
-      rel="shortcut icon"
-      href="images/favicon/android-chrome-192x192.png"
-    />
+    <link rel="shortcut icon" href="images/favicon/android-chrome-192x192.png" />
     <link rel="stylesheet" href="CSS/register.css" />
   </head>
 
@@ -59,7 +56,9 @@
           <!-- EXTRA -->
           <div class="login-text">
             <p>
-              Don't have an account?
+                <a href="forgot_password.php">Forgot Password?</a>
+                <br>
+                Don't have an account?
               <a href="register.php">Register here</a>
             </p>
           </div>
