@@ -11,7 +11,7 @@
 <body>
     <header class="app-header">
         <div class="header-left">
-            <img src="Images/Logo.png" alt="EXPIROCHAIN Logo">
+            <img src="images/Logo.png" alt="EXPIROCHAIN Logo">
         </div>
         <div class="header-right">
             <a href="login.php" class="login-btn">Login</a>
