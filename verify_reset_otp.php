@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!-- HEADER (MIRRORED) -->
 <header class="app-header">
-    <img src="images/logo.png" alt="EXPIROCHAIN Logo">
+    <img src="images/Logo.png" alt="EXPIROCHAIN Logo">
 </header>
 
 <div class="page-wrapper">

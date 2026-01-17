@@ -12,7 +12,7 @@ session_start();
 <body>
 <header class="app-header">
     <div class="header-left">
-        <img src="images/logo.png" alt="EXPIROCHAIN Logo">
+        <img src="images/Logo.png" alt="EXPIROCHAIN Logo">
     </div>
     <div class="header-right">
         <a href="register.php" class="login-btn">Register</a>
