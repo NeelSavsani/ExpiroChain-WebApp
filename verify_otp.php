@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Verify OTP | EXPIROCHAIN</title>
-    <link rel="stylesheet" href="CSS/verify_otp.css">
+    <link rel="stylesheet" href="css/verify_otp.css">
 </head>
 
 <body>

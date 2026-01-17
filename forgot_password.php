@@ -7,7 +7,7 @@ session_start();
     <meta charset="UTF-8">
     <title>Forgot Password | EXPIROCHAIN</title>
     <link rel="shortcut icon" href="images/favicon/android-chrome-192x192.png" />
-    <link rel="stylesheet" href="CSS/register.css">
+    <link rel="stylesheet" href="css/register.css">
 </head>
 <body>
 <header class="app-header">

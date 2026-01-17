@@ -3,7 +3,7 @@ $database = "exch_user";
 $user_table = "user_table";
 $verification_table = "user_verification";
 
-$conn = mysqli_connect("localhost", "root", "", $database);
+$conn = mysqli_connect("127.0.0.1", "root", "", $database);
 
 if(!$conn){
     die("Error".mysqli_connect_error());

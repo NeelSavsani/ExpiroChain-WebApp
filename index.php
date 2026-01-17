@@ -15,57 +15,7 @@ $firm_name = $_SESSION['firm_name'];
     <meta charset="UTF-8">
     <title>Dashboard | EXPIROCHAIN</title>
     <link rel="shortcut icon" href="images/favicon/android-chrome-192x192.png">
-
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', sans-serif;
-            background: #f4f6f9;
-        }
-        .header {
-            background: #0f172a;
-            color: #fff;
-            padding: 15px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .header h1 { font-size: 20px; margin: 0; }
-        .logout-btn {
-            background: #ef4444;
-            color: #fff;
-            padding: 8px 15px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-size: 14px;
-        }
-        .dashboard { padding: 30px; }
-        .welcome-card {
-            background: #ffffff;
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
-            margin-bottom: 25px;
-        }
-        .welcome-card span { color: #2563eb; }
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-        }
-        .stat-box {
-            background: #ffffff;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
-        }
-        footer {
-            text-align: center;
-            padding: 15px;
-            color: #64748b;
-            font-size: 14px;
-        }
-    </style>
+    <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
 

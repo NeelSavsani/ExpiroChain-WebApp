@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Register Organization | EXPIROCHAIN</title>
     <link rel="shortcut icon" href="images/favicon/android-chrome-192x192.png" type="image/x-icon">
-    <link rel="stylesheet" href="CSS/register.css">
+    <link rel="stylesheet" href="css/register.css">
 </head>
 
 <body>

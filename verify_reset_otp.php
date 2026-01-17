@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Verify OTP | EXPIROCHAIN</title>
 
     <!-- SAME CSS AS verify_otp.php -->
-    <link rel="stylesheet" href="CSS/register.css">
+    <link rel="stylesheet" href="css/register.css">
 </head>
 <body>
 
