@@ -50,5 +50,5 @@ $_SESSION['user_id']   = $user['user_id'];
 $_SESSION['firm_name'] = $user['firm_name'];
 
 /* ---------------- REDIRECT ---------------- */
-header("Location: index.php");
+header("Location: home.php");
 exit();

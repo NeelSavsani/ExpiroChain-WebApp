@@ -117,6 +117,6 @@ unset($_SESSION['reg_data'], $_SESSION['reg_files']);
 /* ---------------- REDIRECT TO HOME PAGE ---------------- */
 echo "<script>
     alert('Registration successful! Welcome to EXPIROCHAIN');
-    window.location.href = 'index.php';
+    window.location.href = 'home.php';
 </script>";
 
