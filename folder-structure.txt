@@ -1,0 +1,324 @@
+exp
+├── admin/
+│   ├── css/
+│   │   ├── admin_vrf.css
+│   │   ├── admin.css
+│   │   ├── edit_user.css
+│   │   └── layout.css
+│   ├── admin_usr.php
+│   ├── admin_vrf.php
+│   ├── admin.php
+│   ├── dashboard_chart.js
+│   ├── edit_user.php
+│   ├── layout.php
+│   └── update_user.php
+├── api/
+│   ├── add_product_api.php
+│   ├── add_stock_api.php
+│   ├── export_reports_api.php
+│   ├── get_account_api.php
+│   ├── get_dashboard_api.php
+│   ├── get_expiry_tracker_api.php
+│   ├── get_product_by_barcode_api.php
+│   ├── get_products_api.php
+│   ├── get_reports_api.php
+│   ├── get_stock_api.php
+│   └── login_api.php
+├── css/
+│   ├── home.css
+│   ├── login.css
+│   ├── register.css
+│   └── verify_otp.css
+├── fpdf/
+│   ├── doc/
+│   │   ├── __construct.htm
+│   │   ├── acceptpagebreak.htm
+│   │   ├── addfont.htm
+│   │   ├── addlink.htm
+│   │   ├── addpage.htm
+│   │   ├── aliasnbpages.htm
+│   │   ├── cell.htm
+│   │   ├── close.htm
+│   │   ├── error.htm
+│   │   ├── footer.htm
+│   │   ├── getpageheight.htm
+│   │   ├── getpagewidth.htm
+│   │   ├── getstringwidth.htm
+│   │   ├── getx.htm
+│   │   ├── gety.htm
+│   │   ├── header.htm
+│   │   ├── image.htm
+│   │   ├── index.htm
+│   │   ├── line.htm
+│   │   ├── link.htm
+│   │   ├── ln.htm
+│   │   ├── multicell.htm
+│   │   ├── output.htm
+│   │   ├── pageno.htm
+│   │   ├── rect.htm
+│   │   ├── setauthor.htm
+│   │   ├── setautopagebreak.htm
+│   │   ├── setcompression.htm
+│   │   ├── setcreator.htm
+│   │   ├── setdisplaymode.htm
+│   │   ├── setdrawcolor.htm
+│   │   ├── setfillcolor.htm
+│   │   ├── setfont.htm
+│   │   ├── setfontsize.htm
+│   │   ├── setkeywords.htm
+│   │   ├── setleftmargin.htm
+│   │   ├── setlinewidth.htm
+│   │   ├── setlink.htm
+│   │   ├── setmargins.htm
+│   │   ├── setrightmargin.htm
+│   │   ├── setsubject.htm
+│   │   ├── settextcolor.htm
+│   │   ├── settitle.htm
+│   │   ├── settopmargin.htm
+│   │   ├── setx.htm
+│   │   ├── setxy.htm
+│   │   ├── sety.htm
+│   │   ├── text.htm
+│   │   └── write.htm
+│   ├── font/
+│   │   ├── courier.php
+│   │   ├── courierb.php
+│   │   ├── courierbi.php
+│   │   ├── courieri.php
+│   │   ├── helvetica.php
+│   │   ├── helveticab.php
+│   │   ├── helveticabi.php
+│   │   ├── helveticai.php
+│   │   ├── symbol.php
+│   │   ├── times.php
+│   │   ├── timesb.php
+│   │   ├── timesbi.php
+│   │   ├── timesi.php
+│   │   └── zapfdingbats.php
+│   ├── makefont/
+│   │   ├── cp1250.map
+│   │   ├── cp1251.map
+│   │   ├── cp1252.map
+│   │   ├── cp1253.map
+│   │   ├── cp1254.map
+│   │   ├── cp1255.map
+│   │   ├── cp1257.map
+│   │   ├── cp1258.map
+│   │   ├── cp874.map
+│   │   ├── iso-8859-1.map
+│   │   ├── iso-8859-11.map
+│   │   ├── iso-8859-15.map
+│   │   ├── iso-8859-16.map
+│   │   ├── iso-8859-2.map
+│   │   ├── iso-8859-4.map
+│   │   ├── iso-8859-5.map
+│   │   ├── iso-8859-7.map
+│   │   ├── iso-8859-9.map
+│   │   ├── koi8-r.map
+│   │   ├── koi8-u.map
+│   │   ├── makefont.php
+│   │   └── ttfparser.php
+│   ├── tutorial/
+│   │   ├── 20k_c1.txt
+│   │   ├── 20k_c2.txt
+│   │   ├── calligra.php
+│   │   ├── calligra.ttf
+│   │   ├── calligra.z
+│   │   ├── countries.txt
+│   │   ├── index.htm
+│   │   ├── logo.png
+│   │   ├── makefont.php
+│   │   ├── tuto1.htm
+│   │   ├── tuto1.php
+│   │   ├── tuto2.htm
+│   │   ├── tuto2.php
+│   │   ├── tuto3.htm
+│   │   ├── tuto3.php
+│   │   ├── tuto4.htm
+│   │   ├── tuto4.php
+│   │   ├── tuto5.htm
+│   │   ├── tuto5.php
+│   │   ├── tuto6.htm
+│   │   ├── tuto6.php
+│   │   ├── tuto7.htm
+│   │   └── tuto7.php
+│   ├── changelog.htm
+│   ├── FAQ.htm
+│   ├── fpdf.css
+│   ├── fpdf.php
+│   ├── install.txt
+│   └── license.txt
+├── images/
+│   ├── favicon/
+│   │   ├── android-chrome-192x192.png
+│   │   ├── android-chrome-512x512.png
+│   │   ├── apple-touch-icon.png
+│   │   ├── favicon-16x16.png
+│   │   ├── favicon-32x32.png
+│   │   ├── favicon.ico
+│   │   └── site.webmanifest
+│   └── Logo.png
+├── js/
+│   ├── dashboard_home_chart.js
+│   ├── forgot_password.js
+│   ├── login.js
+│   └── register.js
+├── PHPMailer/
+│   ├── language/
+│   │   ├── phpmailer.lang-af.php
+│   │   ├── phpmailer.lang-ar.php
+│   │   ├── phpmailer.lang-as.php
+│   │   ├── phpmailer.lang-az.php
+│   │   ├── phpmailer.lang-ba.php
+│   │   ├── phpmailer.lang-be.php
+│   │   ├── phpmailer.lang-bg.php
+│   │   ├── phpmailer.lang-bn.php
+│   │   ├── phpmailer.lang-ca.php
+│   │   ├── phpmailer.lang-cs.php
+│   │   ├── phpmailer.lang-da.php
+│   │   ├── phpmailer.lang-de.php
+│   │   ├── phpmailer.lang-el.php
+│   │   ├── phpmailer.lang-eo.php
+│   │   ├── phpmailer.lang-es.php
+│   │   ├── phpmailer.lang-et.php
+│   │   ├── phpmailer.lang-fa.php
+│   │   ├── phpmailer.lang-fi.php
+│   │   ├── phpmailer.lang-fo.php
+│   │   ├── phpmailer.lang-fr.php
+│   │   ├── phpmailer.lang-gl.php
+│   │   ├── phpmailer.lang-he.php
+│   │   ├── phpmailer.lang-hi.php
+│   │   ├── phpmailer.lang-hr.php
+│   │   ├── phpmailer.lang-hu.php
+│   │   ├── phpmailer.lang-hy.php
+│   │   ├── phpmailer.lang-id.php
+│   │   ├── phpmailer.lang-it.php
+│   │   ├── phpmailer.lang-ja.php
+│   │   ├── phpmailer.lang-ka.php
+│   │   ├── phpmailer.lang-ko.php
+│   │   ├── phpmailer.lang-ku.php
+│   │   ├── phpmailer.lang-lt.php
+│   │   ├── phpmailer.lang-lv.php
+│   │   ├── phpmailer.lang-mg.php
+│   │   ├── phpmailer.lang-mn.php
+│   │   ├── phpmailer.lang-ms.php
+│   │   ├── phpmailer.lang-nb.php
+│   │   ├── phpmailer.lang-nl.php
+│   │   ├── phpmailer.lang-pl.php
+│   │   ├── phpmailer.lang-pt_br.php
+│   │   ├── phpmailer.lang-pt.php
+│   │   ├── phpmailer.lang-ro.php
+│   │   ├── phpmailer.lang-ru.php
+│   │   ├── phpmailer.lang-si.php
+│   │   ├── phpmailer.lang-sk.php
+│   │   ├── phpmailer.lang-sl.php
+│   │   ├── phpmailer.lang-sr_latn.php
+│   │   ├── phpmailer.lang-sr.php
+│   │   ├── phpmailer.lang-sv.php
+│   │   ├── phpmailer.lang-tl.php
+│   │   ├── phpmailer.lang-tr.php
+│   │   ├── phpmailer.lang-uk.php
+│   │   ├── phpmailer.lang-ur.php
+│   │   ├── phpmailer.lang-vi.php
+│   │   ├── phpmailer.lang-zh_cn.php
+│   │   └── phpmailer.lang-zh.php
+│   ├── src/
+│   │   ├── DSNConfigurator.php
+│   │   ├── Exception.php
+│   │   ├── OAuth.php
+│   │   ├── OAuthTokenProvider.php
+│   │   ├── PHPMailer.php
+│   │   ├── POP3.php
+│   │   └── SMTP.php
+│   ├── COMMITMENT
+│   ├── composer.json
+│   ├── get_oauth_token.php
+│   ├── LICENSE
+│   ├── README.md
+│   ├── SECURITY.md
+│   ├── SMTPUTF8.md
+│   └── VERSION
+├── temp_uploads/
+│   ├── 2mfd3559iq60hcegsoa9gsougj/
+│   │   ├── dl1.jpg
+│   │   ├── dl2.jpg
+│   │   └── gst.jpg
+│   ├── 98ln541dbabn6ssaf0g52o989e/
+│   │   ├── dl1.png
+│   │   ├── dl2.jpg
+│   │   └── gst.jpg
+│   └── g910859pup9sejmrlt8tuc8og1/
+│       ├── dl1.png
+│       ├── dl2.png
+│       └── gst.png
+├── uploads/
+│   ├── as_2/
+│   │   ├── dl1.png
+│   │   ├── dl2.png
+│   │   └── gst.png
+│   ├── master_eagle_1/
+│   │   ├── dl1.jpeg
+│   │   ├── dl2.jpeg
+│   │   └── gst.jpeg
+│   ├── nehanshi_3/
+│   │   ├── dl1.png
+│   │   ├── dl2.png
+│   │   └── gst.png
+│   ├── savsani_11/
+│   │   ├── dl1.png
+│   │   ├── dl2.png
+│   │   └── gst.png
+│   └── sumit_4/
+│       ├── dl1.jpg
+│       ├── dl2.jpg
+│       └── gst.jpg
+├── user/
+│   ├── css/
+│   │   ├── account.css
+│   │   ├── add_product.css
+│   │   ├── expiry_tracker.css
+│   │   ├── export.css
+│   │   ├── header.css
+│   │   ├── marketplace.css
+│   │   ├── products.css
+│   │   ├── received_requests.css
+│   │   ├── reports.css
+│   │   └── stock.css
+│   ├── account.php
+│   ├── add_product.php
+│   ├── add_stock.php
+│   ├── approve_request.php
+│   ├── expiry_tracker.php
+│   ├── export.js
+│   ├── export.php
+│   ├── get_product_by_barcode.php
+│   ├── layout.php
+│   ├── list_for_sale.php
+│   ├── marketplace.php
+│   ├── products.php
+│   ├── received_requests.php
+│   ├── reject_request.php
+│   ├── request_medicine.php
+│   ├── save_product.php
+│   ├── save_stock.php
+│   ├── send_request.php
+│   ├── stock.php
+│   └── withdraw_request.php
+├── .gitignore
+├── code
+├── config.php
+├── dbconnect.php
+├── forgot_password.php
+├── home.php
+├── login_process.php
+├── login.php
+├── logout.php
+├── README.md
+├── register.php
+├── reset_password.php
+├── save_user.php
+├── send_otp.php
+├── send_reset_otp.php
+├── sendmail.php
+├── verify_otp.php
+└── verify_reset_otp.php
