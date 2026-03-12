@@ -87,27 +87,34 @@ try {
     $mail->SMTPSecure = SMTP_SECURE;
     $mail->Port       = SMTP_PORT;
 
+    // Sender (from config)
     $mail->setFrom(SMTP_USER, APP_NAME);
 
-
-    $mail->setFrom('neelsavsani7@gmail.com', 'EXPIROCHAIN');
+    // Receiver
     $mail->addAddress($data['email_id']);
 
     $mail->isHTML(true);
-    $mail->Subject = 'Welcome to EXPIROCHAIN';
+    $mail->Subject = "Welcome to " . APP_NAME;
+
     $mail->Body = "
         <h2>Registration Successful 🎉</h2>
+
         <p>Dear <b>{$data['owner_name']}</b>,</p>
-        <p>Your organization <b>{$data['firm_name']}</b> has been successfully registered on the <b>EXPIROCHAIN</b> platform.</p>
-        <p>You can now log in and start managing medicine expiry efficiently.</p>
+
+        <p>Your organization <b>{$data['firm_name']}</b> has been successfully registered on the <b>" . APP_NAME . "</b> platform.</p>
+
+        <p><b>You will be able to log in once your account has been verified by the admin through the admin panel.</b></p>
+
         <br>
-        <p>Regards,<br><b>Team EXPIROCHAIN</b></p>
+
+        <p>Regards,<br>
+        <b>Team " . APP_NAME . "</b></p>
     ";
 
     $mail->send();
 
 } catch (Exception $e) {
-    // Even if mail fails, registration is complete
+    // Ignore mail failure
 }
 
 /* ---------------- PRESERVE DASHBOARD SESSION ---------------- */
