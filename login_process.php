@@ -16,11 +16,11 @@ if (empty($username) || empty($password)) {
 }
 
 /* ---------------- ADMIN LOGIN CHECK ---------------- */
-if ($username === "admin" && $password === "admin") {
+if($username == "admin" && $password == "exp123"){
     
-    $_SESSION['role'] = "admin";
-    
-    header("Location: admin/admin_vrf.php");
+    $_SESSION['admin_logged_in'] = true;
+
+    header("Location: admin/admin.php");
     exit();
 }
 

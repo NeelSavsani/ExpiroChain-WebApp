@@ -3,6 +3,11 @@ if(session_status() === PHP_SESSION_NONE){
     session_start();
 }
 
+if(!isset($_SESSION['admin_logged_in'])){
+    header("Location: ../login.php");
+    exit();
+}
+
 $current_page = basename(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 ?>
 
