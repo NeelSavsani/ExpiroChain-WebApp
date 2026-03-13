@@ -103,7 +103,7 @@ try {
 
         <p>Your organization <b>{$data['firm_name']}</b> has been successfully registered on the <b>" . APP_NAME . "</b> platform.</p>
 
-        <p><b>You will be able to log in once your account has been verified by the admin through the admin panel.</b></p>
+        <h3><b>You will be able to log in once your account has been verified by the admin.</h3></p>
 
         <br>
 

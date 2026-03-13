@@ -187,8 +187,6 @@ Cancel
 
 <!-- IMAGE MODAL -->
 
-<!-- IMAGE MODAL -->
-
 <div id="imgModal" class="img-modal">
 
 <span class="close">&times;</span>

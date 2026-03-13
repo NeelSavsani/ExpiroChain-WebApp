@@ -2,16 +2,33 @@
 
 include "../dbconnect.php";
 
+require '../PHPMailer/src/Exception.php';
+require '../PHPMailer/src/PHPMailer.php';
+require '../PHPMailer/src/SMTP.php';
+require '../config.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
 $id = $_POST['id'];
 $action = $_POST['action'];
 
+
 /* ---------------- GET USER DATABASE NAME ---------------- */
 
-$q = "SELECT dbname FROM user_verification WHERE user_id = $id";
+$q = "SELECT v.dbname, u.email_id, u.owner_name, u.firm_name
+      FROM user_verification v
+      JOIN user_table u ON v.user_id = u.user_id
+      WHERE v.user_id = $id";
+
 $r = mysqli_query($conn,$q);
 $data = mysqli_fetch_assoc($r);
 
 $dbname = $data['dbname'];
+$email = $data['email_id'];
+$owner = $data['owner_name'];
+$firm  = $data['firm_name'];
+
 
 /* ---------------- APPROVE USER ---------------- */
 
@@ -26,15 +43,16 @@ if($action == "approve"){
         WHERE user_id = $id
     ");
 
+
     /* create database for that firm */
 
     mysqli_query($conn,"CREATE DATABASE IF NOT EXISTS `$dbname`");
+
 
     /* switch to that database */
 
     mysqli_select_db($conn,$dbname);
 
-    /* ---------------- PRODUCT TABLE ---------------- */
 
     /* ---------------- PRODUCT TABLE ---------------- */
 
@@ -63,6 +81,7 @@ if($action == "approve"){
     ";
 
     mysqli_query($conn,$prod_table);
+
 
     /* ---------------- STOCK TABLE ---------------- */
 
@@ -96,6 +115,7 @@ if($action == "approve"){
     ";
 
     mysqli_query($conn,$stock_table);
+
 
     /* ---------------- ACTION LOG TABLE ---------------- */
 
@@ -136,7 +156,62 @@ if($action == "approve"){
 
     mysqli_query($conn,$action_log);
 
+
+
+    /* ---------------- SEND APPROVAL EMAIL ---------------- */
+
+    $mail = new PHPMailer(true);
+
+    try {
+
+        $mail->isSMTP();
+        $mail->Host       = SMTP_HOST;
+        $mail->SMTPAuth   = true;
+        $mail->Username   = SMTP_USER;
+        $mail->Password   = SMTP_PASS;
+        $mail->SMTPSecure = SMTP_SECURE;
+        $mail->Port       = SMTP_PORT;
+
+        $mail->setFrom(SMTP_USER, APP_NAME);
+
+        $mail->addAddress($email);
+
+        $mail->isHTML(true);
+
+        $mail->Subject = "Account Approved - " . APP_NAME;
+
+        $mail->Body = "
+        <h2>Account Approved ✅</h2>
+
+        <p>Dear <b>$owner</b>,</p>
+
+        <p>Your organization <b>$firm</b> has been successfully <b>approved by the admin</b>.</p>
+
+        <p>You can now log in to the <b>" . APP_NAME . "</b> platform using your login credentials.</p>
+
+        <br>
+
+        <p>
+        <a href='https://51ae-2409-40c1-2f-d78e-bc84-d6f4-eeb5-eb05.ngrok-free.app/exp/login.php'
+        style='background:#28a745;color:white;padding:10px 20px;text-decoration:none;border-radius:5px;'>
+        Login Now
+        </a>
+        </p>
+
+        <br>
+
+        <p>Regards,<br>
+        <b>Team " . APP_NAME . "</b></p>
+        ";
+
+        $mail->send();
+
+    } catch (Exception $e) {
+        // ignore mail error
+    }
+
 }
+
 
 /* ---------------- REJECT USER ---------------- */
 
@@ -149,6 +224,7 @@ if($action == "reject"){
     ");
 
 }
+
 
 /* ---------------- REDIRECT ---------------- */
 

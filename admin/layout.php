@@ -41,14 +41,14 @@ $current_page = basename(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
        Admin Home
     </a>
 
-    <a href="/exp/admin/admin_vrf.php"
-       class="<?php if($current_page=='admin_vrf.php') echo 'active'; ?>">
-       User Verification
-    </a>
-
     <a href="/exp/admin/admin_usr.php"
        class="<?php if($current_page=='admin_usr.php') echo 'active'; ?>">
        User Table
+    </a>
+
+    <a href="/exp/admin/admin_vrf.php"
+       class="<?php if($current_page=='admin_vrf.php') echo 'active'; ?>">
+       User Verification
     </a>
 
 </div>
