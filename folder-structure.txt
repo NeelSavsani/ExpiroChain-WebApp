@@ -10,6 +10,7 @@ exp
 │   ├── admin.php
 │   ├── dashboard_chart.js
 │   ├── edit_user.php
+│   ├── index.php
 │   ├── layout.php
 │   └── update_user.php
 ├── api/
@@ -253,6 +254,10 @@ exp
 │       └── gst.png
 ├── uploads/
 │   ├── as_2/
+│   │   ├── dl1.png
+│   │   ├── dl2.png
+│   │   └── gst.png
+│   ├── krishna_medical_12/
 │   │   ├── dl1.png
 │   │   ├── dl2.png
 │   │   └── gst.png
