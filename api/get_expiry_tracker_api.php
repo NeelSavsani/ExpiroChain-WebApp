@@ -60,9 +60,9 @@ if(!$conn){
 $listed_items = [];
 
 $list_query = "
-SELECT stock_id 
-FROM marketplace_listings 
-WHERE firm_id='$user_id' 
+SELECT stock_id
+FROM marketplace_listings
+WHERE firm_id='$user_id'
 AND status='Active'
 ";
 
@@ -72,11 +72,16 @@ while($l = mysqli_fetch_assoc($list_res)){
     $listed_items[] = $l['stock_id'];
 }
 
-/* FETCH STOCK */
+/* FETCH STOCK WITH TIME LEFT */
 
 $query = "
-SELECT stock_id, prod_name, batch_no, qty, exp_date,
-DATEDIFF(exp_date, CURDATE()) AS days_left
+SELECT 
+stock_id,
+prod_name,
+batch_no,
+qty,
+exp_date,
+TIMESTAMPDIFF(SECOND, NOW(), CONCAT(exp_date,' 23:59:59')) AS seconds_left
 FROM stock_table
 WHERE exp_date IS NOT NULL
 AND exp_date != '0000-00-00'
@@ -88,16 +93,15 @@ $result = mysqli_query($conn,$query);
 $soon = [];
 $expired = [];
 
-$today = new DateTime();
-
 while($row = mysqli_fetch_assoc($result)){
 
-    $exp = new DateTime($row['exp_date']);
-    $days_left = $today->diff($exp)->days;
+    $seconds_left = intval($row['seconds_left']);
 
-    $row['listed'] = in_array($row['stock_id'],$listed_items);
+    /* CHECK LISTED */
+    $listed = in_array($row['stock_id'],$listed_items);
 
-    if($exp < $today){
+    /* EXPIRED */
+    if($seconds_left <= 0){
 
         $expired[] = [
             "stock_id"=>$row['stock_id'],
@@ -108,18 +112,32 @@ while($row = mysqli_fetch_assoc($result)){
         ];
 
     }
-    elseif($days_left <= 30){
 
-        $soon[] = [
-            "stock_id"=>$row['stock_id'],
-            "prod_name"=>$row['prod_name'],
-            "batch_no"=>$row['batch_no'],
-            "qty"=>$row['qty'],
-            "exp_date"=>$row['exp_date'],
-            "days_left"=>$days_left,
-            "listed"=>$row['listed']
-        ];
+    /* EXPIRING WITHIN 30 DAYS */
+    else{
 
+        $days_left = floor($seconds_left / 86400);
+
+        $hours = floor(($seconds_left % 86400) / 3600);
+        $minutes = floor(($seconds_left % 3600) / 60);
+        $seconds = $seconds_left % 60;
+
+        $time_left = sprintf("%02d:%02d:%02d",$hours,$minutes,$seconds);
+
+        if($days_left <= 30){
+
+            $soon[] = [
+                "stock_id"=>$row['stock_id'],
+                "prod_name"=>$row['prod_name'],
+                "batch_no"=>$row['batch_no'],
+                "qty"=>$row['qty'],
+                "exp_date"=>$row['exp_date'],
+                "days_left"=>$days_left,
+                "time_left"=>$time_left,
+                "listed"=>$listed
+            ];
+
+        }
     }
 }
 

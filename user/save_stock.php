@@ -27,11 +27,31 @@ mysqli_select_db($conn,$dbname);
 
 /* GET FORM DATA */
 
-$barcode = $_POST['barcode'];
-$prod_name = $_POST['prod_name'];
-$batch_no = $_POST['batch_no'];
-$exp_date = $_POST['exp_date'];
-$qty = $_POST['qty'];
+$barcode  = trim($_POST['barcode']);
+$prod_name = trim($_POST['prod_name']);
+$batch_no = trim($_POST['batch_no']);
+$exp_date = trim($_POST['exp_date']);
+$qty = intval($_POST['qty']);
+
+/* VALIDATION */
+
+if(empty($barcode) || empty($batch_no) || empty($qty)){
+    die("<script>alert('Required fields missing');history.back();</script>");
+}
+
+/* EXPIRY DATE VALIDATION */
+
+if(!empty($exp_date)){
+
+    $today = date("Y-m-d");
+
+    if($exp_date < $today){
+        die("<script>
+        alert('Expiry date cannot be in the past');
+        history.back();
+        </script>");
+    }
+}
 
 /* GET PRODUCT FROM BARCODE */
 
@@ -50,12 +70,6 @@ $row = mysqli_fetch_assoc($product);
 $prod_id = $row['prod_id'];
 $prod_name = $row['prod_name'];
 
-/* VALIDATION */
-
-if(empty($barcode) || empty($batch_no) || empty($qty)){
-    die("<script>alert('Required fields missing');history.back();</script>");
-}
-
 /* INSERT STOCK */
 
 $sql = "
@@ -68,7 +82,7 @@ VALUES
 $result = mysqli_query($conn,$sql);
 
 if(!$result){
-    die("Stock insert failed");
+    die("Stock insert failed: " . mysqli_error($conn));
 }
 
 /* SUCCESS */

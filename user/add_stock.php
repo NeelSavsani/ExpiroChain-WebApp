@@ -24,6 +24,8 @@ $dbname = $data['dbname'];
 /* SWITCH DATABASE */
 
 mysqli_select_db($conn,$dbname);
+
+$today = date("Y-m-d");
 ?>
 
 <!DOCTYPE html>
@@ -70,7 +72,12 @@ mysqli_select_db($conn,$dbname);
 <!-- EXPIRY DATE -->
 
 <label>Expiry Date</label>
-<input type="date" name="exp_date">
+<input
+type="date"
+name="exp_date"
+id="exp_date"
+min="<?php echo $today; ?>"
+>
 
 <!-- QUANTITY -->
 
@@ -101,8 +108,13 @@ Reset
 © <?php echo date('Y'); ?> EXPIROCHAIN and Team
 </footer>
 
-
 <script>
+
+/* SET MIN DATE TO TODAY */
+
+const today = new Date().toISOString().split("T")[0];
+document.getElementById("exp_date").setAttribute("min", today);
+
 
 /* FETCH PRODUCT NAME FROM BARCODE */
 
@@ -134,6 +146,7 @@ expiryField.value = "";
 }else{
 
 expiryField.disabled = false;
+expiryField.setAttribute("min", today);
 
 }
 
