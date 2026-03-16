@@ -108,6 +108,7 @@ $sql = "CREATE TABLE IF NOT EXISTS marketplace_listings (
     prod_name VARCHAR(100) DEFAULT NULL,
     batch_no VARCHAR(50) DEFAULT NULL,
     qty INT(11) DEFAULT NULL,
+    total_rate FLOAT(5) NOT NULL,
     exp_date DATE DEFAULT NULL,
 
     firm_id INT(11) DEFAULT NULL,

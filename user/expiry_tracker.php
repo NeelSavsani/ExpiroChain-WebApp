@@ -176,7 +176,6 @@ $row_class = ($days <= 7) ? "critical-expiry" : "warning-expiry";
 
 if($days <= 1){
 
-// echo "<span class='risk-badge critical'>".$row['time_left']."</span>";
 echo "<span class='risk-badge critical countdown' data-seconds='".$row['seconds_left']."'>".$row['time_left']."</span>";
 
 }
@@ -322,25 +321,25 @@ No expired medicines
 <input type="hidden" id="stock_id" name="stock_id">
 
 <label>Product</label>
-<input type="text" id="prod_name" readonly>
+<input type="text" id="prod_name" name="prod_name" readonly>
 
 <label>Batch</label>
-<input type="text" id="batch_no" readonly>
+<input type="text" id="batch_no" name="batch_no" readonly>
 
 <label>Quantity to List</label>
-<input type="number" id="qty" name="qty">
+<input type="number" id="qty" name="qty" required>
+
+<label>Total Rate</label>
+<input type="number" id="total_rate" name="total_rate" required>
 
 <label>Expiry</label>
-<input type="text" id="exp_date" readonly>
+<input type="text" id="exp_date" name="exp_date" readonly>
 
 <br><br>
 
 <div class="popup-buttons">
-
 <button type="submit">Confirm Listing</button>
-
 <button type="button" onclick="closePopup()">Cancel</button>
-
 </div>
 
 </form>
