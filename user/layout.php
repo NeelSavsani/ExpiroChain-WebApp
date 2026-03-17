@@ -21,11 +21,11 @@ $firm_name = isset($_SESSION['firm_name']) ? $_SESSION['firm_name'] : "User";
 <div class="header">
   <div class="left-header">
     <button id="hamburger" class="hamburger">☰</button>
-    <h1>EXPIROCHAIN</h1>
+    <h1><a href="/exp/home.php">EXPIROCHAIN</a></h1>
   </div>
 
   <div class="right-header">
-    <span class="firm-name"> <?php echo htmlspecialchars($firm_name); ?> </span>
+    Hello, <span class="firm-name"> <?php echo htmlspecialchars($firm_name); ?> </span>
 
     <a href="/exp/logout.php" class="logout-btn"> Logout </a>
   </div>

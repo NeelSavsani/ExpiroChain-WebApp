@@ -1,12 +1,16 @@
 /* HEADER */
 
 .header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
     background: #0f172a;
     color: #fff;
     padding: 15px 30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
 /* header left */
@@ -17,15 +21,26 @@
     gap:15px;
 }
 
-.header h1 {
+.header h1 a{
     font-size: 20px;
+    text-decoration: none;
+    color: #fff;
     margin: 0;
 }
 
 .right-header{
     display:flex;
     align-items:center;
-    gap:15px;
+    cursor: default;
+}
+
+.firm-name{
+    font-weight:600;
+    font-size:18px;
+    color:#e2e8f0;
+    font-weight: bold;
+    margin-right: 15px;
+    margin-left: 5px;
 }
 
 /* hamburger */
