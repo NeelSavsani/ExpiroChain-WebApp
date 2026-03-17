@@ -39,6 +39,7 @@ $result = mysqli_query($conn,$query);
 <link rel="shortcut icon" href="/exp/images/favicon/android-chrome-192x192.png" />
 <link rel="stylesheet" href="/exp/user/css/products.css">
 <link rel="stylesheet" href="/exp/user/css/export.css">
+<link rel="stylesheet" href="/exp/css/home.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">

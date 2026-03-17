@@ -12,7 +12,7 @@ $firm_name = $_SESSION['firm_name'];
 
 /* GET USER DATABASE */
 
-$q = "SELECT dbname FROM user_verification WHERE user_id = $user_id";
+$q = "SELECT dbname FROM user_verification WHERE user_id = '$user_id'";
 $r = mysqli_query($conn,$q);
 $data = mysqli_fetch_assoc($r);
 
@@ -26,70 +26,34 @@ $dbname = $data['dbname'];
 
 mysqli_select_db($conn,$dbname);
 
+/* COUNTS */
 
-/* TOTAL PRODUCTS */
+$total_products = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS total FROM prod_table"))['total'];
+$total_stock = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS total FROM stock_table"))['total'];
 
-$q_products = "SELECT COUNT(*) AS total_products FROM prod_table";
-$r_products = mysqli_query($conn,$q_products);
-$total_products = mysqli_fetch_assoc($r_products)['total_products'];
+$total_medicine = mysqli_fetch_assoc(mysqli_query($conn,"
+SELECT COUNT(*) AS total FROM prod_table WHERE category='Medicine'
+"))['total'];
 
+$total_cosmetic = mysqli_fetch_assoc(mysqli_query($conn,"
+SELECT COUNT(*) AS total FROM prod_table WHERE category='Cosmetic'
+"))['total'];
 
-/* TOTAL STOCK */
+$total_other = mysqli_fetch_assoc(mysqli_query($conn,"
+SELECT COUNT(*) AS total FROM prod_table WHERE category='Other'
+"))['total'];
 
-$q_stock = "SELECT COUNT(*) AS total_stock FROM stock_table";
-$r_stock = mysqli_query($conn,$q_stock);
-$total_stock = mysqli_fetch_assoc($r_stock)['total_stock'];
-
-
-/* TOTAL MEDICINES */
-
-$q_medicine = "SELECT COUNT(*) AS total_medicine 
-FROM prod_table 
-WHERE category='Medicine'";
-$r_medicine = mysqli_query($conn,$q_medicine);
-$total_medicine = mysqli_fetch_assoc($r_medicine)['total_medicine'];
-
-
-/* TOTAL COSMETICS */
-
-$q_cosmetic = "SELECT COUNT(*) AS total_cosmetic 
-FROM prod_table 
-WHERE category='Cosmetic'";
-$r_cosmetic = mysqli_query($conn,$q_cosmetic);
-$total_cosmetic = mysqli_fetch_assoc($r_cosmetic)['total_cosmetic'];
-
-
-/* NEAR EXPIRY (within 30 days but not expired) */
-
-$q_near_expiry = "
-SELECT COUNT(*) AS near_expiry
+$near_expiry = mysqli_fetch_assoc(mysqli_query($conn,"
+SELECT COUNT(*) AS total
 FROM stock_table
 WHERE exp_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)
-";
+"))['total'];
 
-$r_near_expiry = mysqli_query($conn,$q_near_expiry);
-$near_expiry = mysqli_fetch_assoc($r_near_expiry)['near_expiry'];
-
-
-/* EXPIRED PRODUCTS */
-
-$q_expired = "
-SELECT COUNT(*) AS expired
+$expired = mysqli_fetch_assoc(mysqli_query($conn,"
+SELECT COUNT(*) AS total
 FROM stock_table
 WHERE exp_date < CURDATE()
-";
-
-$r_expired = mysqli_query($conn,$q_expired);
-$expired = mysqli_fetch_assoc($r_expired)['expired'];
-
-
-/* TOTAL OTHERS */
-
-$q_other = "SELECT COUNT(*) AS total_other 
-FROM prod_table 
-WHERE category='Other'";
-$r_other = mysqli_query($conn,$q_other);
-$total_other = mysqli_fetch_assoc($r_other)['total_other'];
+"))['total'];
 ?>
 
 <!DOCTYPE html>
@@ -97,11 +61,11 @@ $total_other = mysqli_fetch_assoc($r_other)['total_other'];
 <head>
 
 <meta charset="UTF-8" />
-
 <title>Dashboard | EXPIROCHAIN</title>
-
+<script src="https://kit.fontawesome.com/e05d24f6c7.js" crossorigin="anonymous"></script>
 <link rel="shortcut icon" href="/exp/images/favicon/android-chrome-192x192.png" />
 <link rel="stylesheet" href="/exp/css/home.css" />
+<link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.2.0/css/line.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
@@ -113,14 +77,18 @@ $total_other = mysqli_fetch_assoc($r_other)['total_other'];
 <div class="dashboard">
 
 <div class="welcome-card">
+<h2>Welcome, <span><?php echo htmlspecialchars($firm_name); ?></span></h2>
+<p>Manage medicine expiry, reduce waste, and stay compliant — all in one place.</p>
+</div>
 
-<h2>
-Welcome, <span><?php echo htmlspecialchars($firm_name); ?></span>
-</h2>
+<br>
 
-<p>
-Manage medicine expiry, reduce waste, and stay compliant — all in one place.
-</p>
+<div class="stats">
+
+<div class="stat-box"><h3>Total Products</h3><p><?php echo $total_products; ?></p></div>
+<div class="stat-box"><h3>Total Stock</h3><p><?php echo $total_stock; ?></p></div>
+<div class="stat-box"><h3>Total Medicines</h3><p><?php echo $total_medicine; ?></p></div>
+<div class="stat-box"><h3>Total Cosmetics</h3><p><?php echo $total_cosmetic; ?></p></div>
 
 </div>
 
@@ -128,51 +96,10 @@ Manage medicine expiry, reduce waste, and stay compliant — all in one place.
 
 <div class="stats">
 
-<div class="stat-box">
-<h3>Total Products</h3>
-<p><?php echo $total_products; ?></p>
-</div>
-
-<div class="stat-box">
-<h3>Total Stock</h3>
-<p><?php echo $total_stock; ?></p>
-</div>
-
-<div class="stat-box">
-<h3>Total Medicines</h3>
-<p><?php echo $total_medicine; ?></p>
-</div>
-
-<div class="stat-box">
-<h3>Total Cosmetics</h3>
-<p><?php echo $total_cosmetic; ?></p>
-</div>
-
-</div>
-
-<br>
-
-<div class="stats">
-
-<div class="stat-box">
-<h3>Total Others</h3>
-<p><?php echo $total_other; ?></p>
-</div>
-
-<div class="stat-box">
-<h3>Near Expiry</h3>
-<p><?php echo $near_expiry; ?></p>
-</div>
-
-<div class="stat-box">
-<h3>Total Near Expiry Sold</h3>
-<p>0</p>
-</div>
-
-<div class="stat-box">
-<h3>Expired</h3>
-<p><?php echo $expired; ?></p>
-</div>
+<div class="stat-box"><h3>Total Others</h3><p><?php echo $total_other; ?></p></div>
+<div class="stat-box"><h3>Near Expiry</h3><p><?php echo $near_expiry; ?></p></div>
+<div class="stat-box"><h3>Total Near Expiry Sold</h3><p>0</p></div>
+<div class="stat-box"><h3>Expired</h3><p><?php echo $expired; ?></p></div>
 
 </div>
 
@@ -182,20 +109,18 @@ Manage medicine expiry, reduce waste, and stay compliant — all in one place.
 </a>
 </div>
 
-<!-- CHART SECTION -->
+<!-- CHARTS -->
 
 <div class="charts-container">
 
 <div class="chart-box">
 <h3>Product Categories</h3>
-<canvas id="categoryChart" height="300"></canvas>
+<canvas id="categoryChart"></canvas>
 </div>
 
 <div class="chart-box">
 <h3>Inventory Overview</h3>
-<canvas id="inventoryChart" height="300"></canvas>
-</div>
-
+<canvas id="inventoryChart"></canvas>
 </div>
 
 </div>
@@ -206,8 +131,7 @@ Manage medicine expiry, reduce waste, and stay compliant — all in one place.
 © <?php echo date('Y'); ?> EXPIROCHAIN and Team
 </footer>
 
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- CHART SCRIPT -->
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -219,121 +143,35 @@ const others = <?php echo $total_other; ?>;
 const products = <?php echo $total_products; ?>;
 const stock = <?php echo $total_stock; ?>;
 
+/* PIE */
 
-/* CATEGORY PIE CHART */
-
-const categoryCtx = document.getElementById("categoryChart").getContext("2d");
-
-new Chart(categoryCtx, {
-
+new Chart(document.getElementById("categoryChart"), {
 type: "pie",
-
 data: {
-
-labels: [
-"Medicines",
-"Cosmetics",
-"Others"
-],
-
+labels: ["Medicines","Cosmetics","Others"],
 datasets: [{
-data: [
-medicines,
-cosmetics,
-others
-],
-
-backgroundColor: [
-"#2563eb",
-"#16a34a",
-"#f59e0b"
-]
+data: [medicines, cosmetics, others],
+backgroundColor: ["#2563eb","#16a34a","#f59e0b"]
 }]
-
-},
-
-options: {
-
-responsive: true,
-
-plugins: {
-
-legend: { position: "bottom" },
-
-title: {
-display: true,
-text: "Product Categories"
 }
-
-}
-
-}
-
 });
 
+/* BAR */
 
-/* INVENTORY BAR CHART */
-
-const inventoryCtx = document.getElementById("inventoryChart").getContext("2d");
-
-new Chart(inventoryCtx, {
-
+new Chart(document.getElementById("inventoryChart"), {
 type: "bar",
-
 data: {
-
-labels: [
-"Products",
-"Stock"
-],
-
+labels: ["Products","Stock"],
 datasets: [{
-
-label: "Inventory",
-
-data: [
-products,
-stock
-],
-
-backgroundColor: [
-"#2563eb",
-"#10b981"
-],
-
-borderRadius: 6
-
+data: [products, stock],
+backgroundColor: ["#2563eb","#10b981"]
 }]
-
-},
-
-options: {
-
-responsive: true,
-
-plugins: {
-
-legend: { display:false },
-
-title: {
-display:true,
-text:"Inventory Overview"
 }
-
-},
-
-scales:{
-y:{
-beginAtZero:true
-}
-}
-
-}
-
 });
 
 });
 </script>
+
 
 </body>
 </html>

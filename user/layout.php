@@ -6,15 +6,10 @@ if(session_status() === PHP_SESSION_NONE){
 $firm_name = isset($_SESSION['firm_name']) ? $_SESSION['firm_name'] : "User";
 ?>
 
-<!-- HEADER + SIDEBAR CSS -->
-<!-- <link rel="stylesheet" href="user/css/header.css"> -->
-<link rel="stylesheet" href="/exp/user/css/header.css" />
 
-<!-- FONT AWESOME -->
-<link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-/>
+<link rel="stylesheet" href="/exp/user/css/header.css" />
+<link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.2.0/css/line.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
 <!-- HEADER -->
 
@@ -61,63 +56,63 @@ PHP_URL_PATH)); ?>
     href="/exp/home.php"
     class="<?php if($current_page=='home.php') echo 'active'; ?>"
   >
-    Home
+    <i class="fa-solid fa-house"></i> Home
   </a>
 
   <a
     href="/exp/user/add_product.php"
     class="<?php if($current_page=='add_product.php') echo 'active'; ?>"
   >
-    Add Product
+    <i class="fa-solid fa-plus"></i> Add Product
   </a>
 
   <a
     href="/exp/user/products.php"
     class="<?php if($current_page=='products.php') echo 'active'; ?>"
   >
-    Products
+    <i class="fa-solid fa-database"></i> Products
   </a>
 
   <a
     href="/exp/user/add_stock.php"
     class="<?php if($current_page=='add_stock.php') echo 'active'; ?>"
   >
-    Add Stock
+    <i class="uil uil-create-dashboard"></i> Add Stock
   </a>
 
   <a
     href="/exp/user/stock.php"
     class="<?php if($current_page=='stock.php') echo 'active'; ?>"
   >
-    Stock
+   <i class="fa-solid fa-server"></i> Stock
   </a>
 
   <a
     href="/exp/user/expiry_tracker.php"
     class="<?php if($current_page=='expiry_tracker.php') echo 'active'; ?>"
   >
-    Expiry Tracker
+    <i class="fa-solid fa-triangle-exclamation"></i> Expiry Tracker
   </a>
 
   <a
     href="/exp/user/marketplace.php"
     class="<?php if($current_page=='marketplace.php') echo 'active'; ?>"
   >
-    Marketplace
+    <i class="fa-solid fa-cart-shopping"></i> Marketplace
   </a>
 
   <a
     href="/exp/user/received_requests.php"
     class="<?php if($current_page=='received_requests.php') echo 'active'; ?>"
   >
-    Requests
+    <i class="fa-solid fa-user-clock"></i> Requests
   </a>
 
   <a
     href="/exp/user/account.php"
     class="<?php if($current_page=='account.php') echo 'active'; ?>"
   >
-    Account
+    <i class="fa-solid fa-circle-user"></i> Account
   </a>
 </div>
 
@@ -166,4 +161,136 @@ PHP_URL_PATH)); ?>
       overlay.classList.remove("active");
     }
   });
+</script>
+
+
+<!-- STYLE -->
+ <style>
+    /* CUSTOM RIGHT CLICK */
+.custom-menu{
+    position:absolute;
+    display:none;
+    padding: 10px;
+    background:#0f172a;
+    /* background: #fff; */
+    color: white;
+    border:1px solid #212f4e;
+    border-radius:8px;
+    box-shadow:0 6px 15px rgba(0,0,0,0.2);
+    z-index:9999;
+    width:250px;
+    overflow:hidden;
+    transition: all 0.3s ease;
+}
+
+.custom-menu ul{
+    list-style:none;
+    margin:0;
+    padding:0;
+}
+
+.custom-menu li{
+    display: flex;
+    gap: 20px;
+    padding:10px 14px;
+    cursor:pointer;
+    margin: 5px 0;
+    border-radius: 5px;
+    font-size:18px;
+    letter-spacing: 1px;
+}
+
+.custom-menu li i{
+    font-weight: bold;
+    vertical-align: left;
+    text-align: left;
+    align-items: left;
+    justify-content: left;
+}
+
+.custom-menu li:nth-last-child(1){
+    font-weight: bold;
+    color: #ef4444;
+}
+
+.custom-menu li:nth-last-child(1):hover{
+    background-color: #ef4444;
+    color: #fff;
+}
+
+.custom-menu li:hover{
+    background:#212f4e;
+    /* background: #f1f5f9; */
+    transition: all 0.3s ease;
+}
+
+hr{
+    color: #f4f6f9;
+    opacity: 50%;
+}
+ </style>
+
+<!-- RIGHT CLICK MENU -->
+
+<div id="customMenu" class="custom-menu">
+<ul>
+<li onclick="goHome()"><i class="uil uil-estate"></i> Home</li>
+<li onclick="refreshPage()"><i class="uil uil-sync"></i> Refresh</li>
+<li onclick="productsPage()"><i class="uil uil-database"></i> Products</li>
+<li onclick="stockPage()"><i class="uil uil-cloud-database-tree"></i> Stock</li>
+<li onclick="expiryalertPage()"><i class="uil uil-exclamation-triangle"></i> Expiry Alert</li>
+<li onclick="requestsPage()"><i class="uil uil-bell"></i> Requests</li>
+<li onclick="goMarketplace()"><i class="uil uil-shopping-cart"></i> Marketplace</li>
+<hr>
+<li onclick="accountPage()"><i class="uil uil-user"></i> Account</li>
+<li onclick="logout()"><i class="uil uil-signout"></i> Logout</li>
+</ul>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+
+const menu = document.getElementById("customMenu");
+
+/* RIGHT CLICK */
+document.addEventListener("contextmenu", function(e){
+    e.preventDefault();
+    menu.style.display = "block";
+    menu.style.left = e.pageX + "px";
+    menu.style.top = e.pageY + "px";
+});
+
+/* HIDE */
+document.addEventListener("click", function(){
+    menu.style.display = "none";
+});
+
+/* KEEP INSIDE SCREEN */
+document.addEventListener("mousemove", function(e){
+
+    const w = menu.offsetWidth;
+    const h = menu.offsetHeight;
+
+    if(e.pageX + w > window.innerWidth){
+        menu.style.left = (window.innerWidth - w - 10) + "px";
+    }
+
+    if(e.pageY + h > window.innerHeight){
+        menu.style.top = (window.innerHeight - h - 10) + "px";
+    }
+
+});
+
+/* ACTIONS */
+window.refreshPage = () => location.reload();
+window.goHome = () => window.location.href = "/exp/home.php";
+window.goMarketplace = () => window.location.href = "/exp/user/marketplace.php";
+window.productsPage = () => window.location.href = "/exp/user/products.php";
+window.stockPage = () => window.location.href = "/exp/user/stock.php";
+window.expiryalertPage = () => window.location.href = "/exp/user/expiry_tracker.php";
+window.requestsPage = () => window.location.href = "/exp/user/received_requests.php";
+window.accountPage = () => window.location.href = "/exp/user/account.php";
+window.logout = () => window.location.href = "/exp/logout.php";
+
+});
 </script>
