@@ -221,6 +221,7 @@ PHP_URL_PATH)); ?>
 .custom-menu li:hover{
     background:#212f4e;
     /* background: #f1f5f9; */
+    transform: translateY(-2px);
     transition: all 0.3s ease;
 }
 
