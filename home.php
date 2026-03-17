@@ -59,6 +59,30 @@ $r_cosmetic = mysqli_query($conn,$q_cosmetic);
 $total_cosmetic = mysqli_fetch_assoc($r_cosmetic)['total_cosmetic'];
 
 
+/* NEAR EXPIRY (within 30 days but not expired) */
+
+$q_near_expiry = "
+SELECT COUNT(*) AS near_expiry
+FROM stock_table
+WHERE exp_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)
+";
+
+$r_near_expiry = mysqli_query($conn,$q_near_expiry);
+$near_expiry = mysqli_fetch_assoc($r_near_expiry)['near_expiry'];
+
+
+/* EXPIRED PRODUCTS */
+
+$q_expired = "
+SELECT COUNT(*) AS expired
+FROM stock_table
+WHERE exp_date < CURDATE()
+";
+
+$r_expired = mysqli_query($conn,$q_expired);
+$expired = mysqli_fetch_assoc($r_expired)['expired'];
+
+
 /* TOTAL OTHERS */
 
 $q_other = "SELECT COUNT(*) AS total_other 
@@ -137,7 +161,7 @@ Manage medicine expiry, reduce waste, and stay compliant — all in one place.
 
 <div class="stat-box">
 <h3>Near Expiry</h3>
-<p>0</p>
+<p><?php echo $near_expiry; ?></p>
 </div>
 
 <div class="stat-box">
@@ -147,7 +171,7 @@ Manage medicine expiry, reduce waste, and stay compliant — all in one place.
 
 <div class="stat-box">
 <h3>Expired</h3>
-<p>0</p>
+<p><?php echo $expired; ?></p>
 </div>
 
 </div>

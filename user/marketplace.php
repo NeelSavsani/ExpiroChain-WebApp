@@ -51,6 +51,7 @@ while($r = mysqli_fetch_assoc($res)){
 <link rel="shortcut icon" href="/exp/images/favicon/android-chrome-192x192.png" />
 <link rel="stylesheet" href="/exp/css/home.css">
 <link rel="stylesheet" href="/exp/user/css/marketplace.css">
+<link rel="stylesheet" href="/exp/user/css/expiry_tracker.css">     <!--for popup-->
 
 </head>
 
@@ -164,16 +165,20 @@ Requested
 
 <?php } else { ?>
 
-<form action="send_request.php" method="POST">
-
-<input type="hidden" name="listing_id" value="<?php echo $row['listing_id']; ?>">
-<input type="hidden" name="prod_name" value="<?php echo htmlspecialchars($row['prod_name']); ?>">
-<input type="hidden" name="batch_no" value="<?php echo htmlspecialchars($row['batch_no']); ?>">
-<input type="hidden" name="to_firm_id" value="<?php echo $row['firm_id']; ?>">
-
-<button class="request-btn">Request</button>
-
-</form>
+<button
+class="request-btn open-request-popup"
+data-id="<?php echo $row['listing_id']; ?>"
+data-firm-id="<?php echo $row['firm_id']; ?>"
+data-firm-name="<?php echo htmlspecialchars($row['firm_name']); ?>"
+data-name="<?php echo htmlspecialchars($row['prod_name']); ?>"
+data-batch="<?php echo $row['batch_no']; ?>"
+data-exp="<?php echo $row['exp_date']; ?>"
+data-maxqty="<?php echo $row['qty']; ?>"
+data-rate="<?php echo $row['total_rate']; ?>"
+data-unit-price="<?php echo $row['total_rate'] / $row['qty']; ?>"
+>
+Request
+</button>
 
 <?php } ?>
 
@@ -200,6 +205,52 @@ No medicines available
 </tbody>
 
 </table>
+
+<!-- REQUEST POPUP -->
+
+<div id="requestPopup" class="popup">
+
+<div class="popup-content">
+
+<h3>Request Medicine</h3>
+
+<form id="requestForm">
+
+<input type="hidden" id="listing_id" name="listing_id">
+
+<label>Firm Name</label>
+<input type="text" id="firm_name" readonly>
+
+<label>Product Name</label>
+<input type="text" id="req_prod_name" readonly>
+
+<label>Batch Number</label>
+<input type="text" id="req_batch_no" readonly>
+
+<label>Expiry Date</label>
+<input type="text" id="req_exp_date" readonly>
+
+<label>Quantity</label>
+<input type="number" id="req_qty" name="qty" min="1" required>
+
+<label>Total Rate</label>
+<input type="number" id="req_total_rate" name="total_rate" required>
+
+<br><br>
+
+<div class="popup-buttons">
+
+<button type="submit">Request</button>
+
+<button type="button" onclick="closeRequestPopup()">Cancel</button>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
 
 </div>
 
@@ -254,6 +305,158 @@ document.getElementById("firmSearch").value="";
 $('#marketTable').DataTable().column(6).search("").draw();
 
 }
+
+</script>
+
+<script>
+
+let currentRequestBtn = null;
+let selectedFirmId = 0;
+let unitPrice = 0;
+let isManualEdit = false;
+
+/* =========================
+   OPEN POPUP
+========================= */
+
+document.addEventListener("click", function(e){
+
+if(e.target.classList.contains("open-request-popup")){
+
+    currentRequestBtn = e.target;
+
+    document.getElementById("requestPopup").style.display = "flex";
+
+    let maxQty = parseInt(e.target.dataset.maxqty);
+
+    selectedFirmId = e.target.dataset.firmId;
+    unitPrice = parseFloat(e.target.dataset.unitPrice);
+
+    isManualEdit = false;   // reset negotiation mode
+
+    // DEBUG (optional)
+    console.log("Unit Price:", unitPrice);
+
+    document.getElementById("listing_id").value = e.target.dataset.id;
+    document.getElementById("firm_name").value = e.target.dataset.firmName;
+    document.getElementById("req_prod_name").value = e.target.dataset.name;
+    document.getElementById("req_batch_no").value = e.target.dataset.batch;
+    document.getElementById("req_exp_date").value = e.target.dataset.exp;
+
+    let qtyInput = document.getElementById("req_qty");
+    let totalInput = document.getElementById("req_total_rate");
+
+    /* SET QTY */
+    qtyInput.value = maxQty;
+    qtyInput.max = maxQty;
+    qtyInput.min = 1;
+    qtyInput.dataset.maxqty = maxQty;
+
+    /* 🔥 INITIAL AUTO PRICE */
+totalInput.value = Math.ceil(maxQty * unitPrice);
+}
+});
+
+/* =========================
+   REAL-TIME PRICE UPDATE
+========================= */
+
+document.getElementById("req_qty").addEventListener("input", function(){
+
+let max = parseInt(this.dataset.maxqty);
+let qty = parseInt(this.value);
+
+/* validation */
+if(isNaN(qty) || qty < 1){
+    qty = 1;
+    this.value = 1;
+}
+
+if(qty > max){
+    alert("Only " + max + " quantity available");
+    qty = max;
+    this.value = max;
+}
+
+/* 🔥 AUTO CALCULATION */
+if(!isManualEdit){
+    let total = qty * unitPrice;
+    document.getElementById("req_total_rate").value = Math.ceil(total); 
+}
+
+});
+
+/* =========================
+   MANUAL NEGOTIATION MODE
+========================= */
+
+document.getElementById("req_total_rate").addEventListener("input", function(){
+    isManualEdit = true;   // stop auto overwrite
+});
+
+/* =========================
+   CLOSE POPUP
+========================= */
+
+function closeRequestPopup(){
+document.getElementById("requestPopup").style.display = "none";
+}
+
+/* =========================
+   SUBMIT REQUEST
+========================= */
+
+document.getElementById("requestForm").addEventListener("submit", function(e){
+
+e.preventDefault();
+
+let formData = new FormData(this);
+
+/* ADD REQUIRED FIELDS */
+
+formData.append("to_firm_id", selectedFirmId);
+formData.append("prod_name", document.getElementById("req_prod_name").value);
+formData.append("batch_no", document.getElementById("req_batch_no").value);
+
+/* AJAX */
+
+fetch("send_request.php",{
+method:"POST",
+body:formData
+})
+.then(res => res.text())
+.then(data => {
+
+/* SUCCESS */
+
+if(data.includes("success") || data.trim() === ""){
+
+closeRequestPopup();
+
+/* UPDATE BUTTON */
+
+if(currentRequestBtn){
+
+currentRequestBtn.innerText = "Requested";
+currentRequestBtn.disabled = true;
+currentRequestBtn.classList.remove("request-btn");
+currentRequestBtn.classList.add("requested-btn");
+
+}
+
+}else{
+
+alert("Request failed");
+
+}
+
+})
+.catch(err => {
+console.error(err);
+alert("Network error");
+});
+
+});
 
 </script>
 

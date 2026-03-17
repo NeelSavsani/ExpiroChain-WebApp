@@ -12,14 +12,17 @@ $user_id = (int)$_SESSION['user_id'];
 /* FETCH RECEIVED REQUESTS */
 
 $query = "
-SELECT r.*, u.firm_name
+SELECT r.*, u.firm_name, 
+       ml.total_rate, 
+       ml.qty AS total_qty
 FROM exch_user.exchange_requests r
 JOIN exch_user.user_table u
 ON r.from_firm_id = u.user_id
+JOIN exch_user.marketplace_listings ml
+ON r.listing_id = ml.listing_id
 WHERE r.to_firm_id = '$user_id'
 ORDER BY r.request_date DESC
 ";
-
 $result = mysqli_query($conn,$query);
 ?>
 
@@ -69,6 +72,7 @@ My Requests
 <th>Medicine</th>
 <th>Batch</th>
 <th>Qty</th>
+<th>Requested Price</th>
 <th>Requested By</th>
 <th>Status</th>
 <th>Action</th>
@@ -88,6 +92,23 @@ My Requests
 <td><?php echo htmlspecialchars($row['batch_no']); ?></td>
 
 <td><?php echo $row['qty_requested']; ?></td>
+
+<?php
+$unit_price = ($row['total_qty'] > 0) ? 
+              ($row['total_rate'] / $row['total_qty']) : 0;
+
+$original_for_requested = $unit_price * $row['qty_requested'];
+?>
+
+<td>
+₹<?php echo number_format($row['requested_rate'],2); ?>
+
+<br>
+
+<small style="color:#6b7280;">
+Original: ₹<?php echo number_format($original_for_requested,2); ?>
+</small>
+</td>
 
 <td><?php echo htmlspecialchars($row['firm_name']); ?></td>
 
@@ -177,6 +198,7 @@ if(mysqli_num_rows($res2) > 0){
 <th>Medicine</th>
 <th>Batch</th>
 <th>Qty</th>
+<th>Requested Price</th>
 <th>Firm</th>
 <th>Status</th>
 <th>Action</th>
@@ -193,6 +215,7 @@ if(mysqli_num_rows($res2) > 0){
 <td><?php echo htmlspecialchars($req['prod_name']); ?></td>
 <td><?php echo htmlspecialchars($req['batch_no']); ?></td>
 <td><?php echo $req['qty_requested']; ?></td>
+<td>₹<?php echo number_format($req['requested_rate'],2); ?></td>
 <td><?php echo htmlspecialchars($req['firm_name']); ?></td>
 
 <td>

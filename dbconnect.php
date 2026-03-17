@@ -140,7 +140,7 @@ listing_id INT NOT NULL,
 prod_name VARCHAR(100) NOT NULL,
 batch_no VARCHAR(50) NOT NULL,
 qty_requested INT NOT NULL,
-
+requested_rate FLOAT NOT NULL,
 from_firm_id INT NOT NULL,
 to_firm_id INT NOT NULL,
 
