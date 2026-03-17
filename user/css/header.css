@@ -22,6 +22,12 @@
     margin: 0;
 }
 
+.right-header{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
 /* hamburger */
 
 .hamburger{

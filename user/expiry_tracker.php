@@ -198,9 +198,15 @@ echo "<span class='risk-badge warning'>".$days." days</span>";
 
 <?php if(in_array($row['stock_id'],$listed_items)){ ?>
 
-<button class="listed-btn" disabled>
-Listed
+<form action="revoke_listing.php" method="POST" onsubmit="return confirm('Revoke this listing?');">
+
+<input type="hidden" name="stock_id" value="<?php echo $row['stock_id']; ?>">
+
+<button class="revoke-btn">
+Revoke
 </button>
+
+</form>
 
 <?php } else { ?>
 
@@ -398,10 +404,17 @@ if(data.includes("success")){
 closePopup();
 
 if(currentButton){
-currentButton.innerText="Listed";
-currentButton.disabled=true;
-currentButton.classList.remove("sale-btn");
-currentButton.classList.add("listed-btn");
+
+let stockId = currentButton.dataset.stock;
+
+/* 🔥 REPLACE BUTTON WITH REVOKE FORM */
+
+currentButton.outerHTML = `
+<form action="revoke_listing.php" method="POST" onsubmit="return confirm('Revoke this listing?');">
+<input type="hidden" name="stock_id" value="${stockId}">
+<button class="revoke-btn">Revoke</button>
+</form>
+`;
 }
 
 }
