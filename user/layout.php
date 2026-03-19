@@ -11,7 +11,6 @@ $firm_name = isset($_SESSION['firm_name']) ? $_SESSION['firm_name'] : "User";
 <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.2.0/css/line.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-<!-- HEADER -->
 
 <div class="header">
   <div class="left-header">
@@ -27,18 +26,54 @@ $firm_name = isset($_SESSION['firm_name']) ? $_SESSION['firm_name'] : "User";
 </div>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
+
     const sidebar = document.getElementById("sidebar");
     const overlay = document.getElementById("overlay");
     const hamburger = document.getElementById("hamburger");
+    const closeSidebar = document.getElementById("closeSidebar");
 
+    /* =========================
+       OPEN SIDEBAR
+    ========================= */
     if (hamburger) {
-      hamburger.onclick = () => {
-        sidebar.classList.add("active");
-        overlay.classList.add("active");
-      };
+        hamburger.addEventListener("click", function () {
+            sidebar.classList.add("active");
+            overlay.classList.add("active");
+        });
     }
-  });
+
+    /* =========================
+       CLOSE SIDEBAR (X BUTTON)
+    ========================= */
+    if (closeSidebar) {
+        closeSidebar.addEventListener("click", function () {
+            sidebar.classList.remove("active");
+            overlay.classList.remove("active");
+        });
+    }
+
+    /* =========================
+       CLICK OUTSIDE (OVERLAY)
+    ========================= */
+    if (overlay) {
+        overlay.addEventListener("click", function () {
+            sidebar.classList.remove("active");
+            overlay.classList.remove("active");
+        });
+    }
+
+    /* =========================
+       ESC KEY CLOSE
+    ========================= */
+    document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") {
+            sidebar.classList.remove("active");
+            overlay.classList.remove("active");
+        }
+    });
+
+});
 </script>
 
 <?php $current_page = basename(parse_url($_SERVER['REQUEST_URI'],
@@ -168,7 +203,7 @@ PHP_URL_PATH)); ?>
  <style>
     /* CUSTOM RIGHT CLICK */
 .custom-menu{
-    position:absolute;
+    position:fixed;
     display:none;
     padding: 10px;
     background:#0f172a;
@@ -255,31 +290,36 @@ const menu = document.getElementById("customMenu");
 
 /* RIGHT CLICK */
 document.addEventListener("contextmenu", function(e){
+
     e.preventDefault();
+
+    /* TEMP SHOW FOR SIZE */
+    menu.style.visibility = "hidden";
     menu.style.display = "block";
-    menu.style.left = e.pageX + "px";
-    menu.style.top = e.pageY + "px";
+
+    const menuWidth = menu.offsetWidth;
+    const menuHeight = menu.offsetHeight;
+
+    let posX = e.clientX;
+    let posY = e.clientY;
+
+    if(posX + menuWidth > window.innerWidth){
+        posX = window.innerWidth - menuWidth - 10;
+    }
+
+    if(posY + menuHeight > window.innerHeight){
+        posY = window.innerHeight - menuHeight - 10;
+    }
+
+    menu.style.left = posX + "px";
+    menu.style.top = posY + "px";
+
+    menu.style.visibility = "visible";
 });
 
 /* HIDE */
 document.addEventListener("click", function(){
     menu.style.display = "none";
-});
-
-/* KEEP INSIDE SCREEN */
-document.addEventListener("mousemove", function(e){
-
-    const w = menu.offsetWidth;
-    const h = menu.offsetHeight;
-
-    if(e.pageX + w > window.innerWidth){
-        menu.style.left = (window.innerWidth - w - 10) + "px";
-    }
-
-    if(e.pageY + h > window.innerHeight){
-        menu.style.top = (window.innerHeight - h - 10) + "px";
-    }
-
 });
 
 /* ACTIONS */
