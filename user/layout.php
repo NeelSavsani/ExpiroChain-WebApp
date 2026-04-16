@@ -87,66 +87,43 @@ PHP_URL_PATH)); ?>
     <button id="closeSidebar" class="close-btn">✖</button>
   </div>
 
-  <a
-    href="/exp/home.php"
-    class="<?php if($current_page=='home.php') echo 'active'; ?>"
-  >
+  <a href="/exp/home.php" class="<?php if($current_page=='home.php') echo 'active'; ?>" >
     <i class="fa-solid fa-house"></i> Home
   </a>
 
-  <a
-    href="/exp/user/add_product.php"
-    class="<?php if($current_page=='add_product.php') echo 'active'; ?>"
-  >
+  <a href="/exp/user/add_product.php" class="<?php if($current_page=='add_product.php') echo 'active'; ?>" >
     <i class="fa-solid fa-plus"></i> Add Product
   </a>
 
-  <a
-    href="/exp/user/products.php"
-    class="<?php if($current_page=='products.php') echo 'active'; ?>"
-  >
+  <a href="/exp/user/products.php" class="<?php if($current_page=='products.php') echo 'active'; ?>" >
     <i class="fa-solid fa-database"></i> Products
   </a>
 
-  <a
-    href="/exp/user/add_stock.php"
-    class="<?php if($current_page=='add_stock.php') echo 'active'; ?>"
-  >
+  <a href="/exp/user/add_stock.php" class="<?php if($current_page=='add_stock.php') echo 'active'; ?>" >
     <i class="uil uil-create-dashboard"></i> Add Stock
   </a>
 
-  <a
-    href="/exp/user/stock.php"
-    class="<?php if($current_page=='stock.php') echo 'active'; ?>"
-  >
+  <a href="/exp/user/stock.php" class="<?php if($current_page=='stock.php') echo 'active'; ?>" >
    <i class="fa-solid fa-server"></i> Stock
   </a>
 
-  <a
-    href="/exp/user/expiry_tracker.php"
-    class="<?php if($current_page=='expiry_tracker.php') echo 'active'; ?>"
-  >
+  <a href="/exp/user/expiry_tracker.php" class="<?php if($current_page=='expiry_tracker.php') echo 'active'; ?>" >
     <i class="fa-solid fa-triangle-exclamation"></i> Expiry Tracker
   </a>
 
-  <a
-    href="/exp/user/marketplace.php"
-    class="<?php if($current_page=='marketplace.php') echo 'active'; ?>"
-  >
+  <a href="/exp/user/marketplace.php" class="<?php if($current_page=='marketplace.php') echo 'active'; ?>" >
     <i class="fa-solid fa-cart-shopping"></i> Marketplace
   </a>
 
-  <a
-    href="/exp/user/received_requests.php"
-    class="<?php if($current_page=='received_requests.php') echo 'active'; ?>"
-  >
+  <a href="/exp/user/received_requests.php" class="<?php if($current_page=='received_requests.php') echo 'active'; ?>" >
     <i class="fa-solid fa-user-clock"></i> Requests
   </a>
 
-  <a
-    href="/exp/user/account.php"
-    class="<?php if($current_page=='account.php') echo 'active'; ?>"
-  >
+  <a href="/exp/user/action_log.php" class="<?php if($current_page=='action_log.php') echo 'active'; ?>" >
+    <i class="fa-solid fa-file-lines"></i> Action Log
+  </a>
+
+  <a href="/exp/user/account.php" class="<?php if($current_page=='account.php') echo 'active'; ?>" >
     <i class="fa-solid fa-circle-user"></i> Account
   </a>
 </div>
@@ -277,6 +254,7 @@ hr{
 <li onclick="expiryalertPage()"><i class="uil uil-exclamation-triangle"></i> Expiry Alert</li>
 <li onclick="requestsPage()"><i class="uil uil-bell"></i> Requests</li>
 <li onclick="goMarketplace()"><i class="uil uil-shopping-cart"></i> Marketplace</li>
+<li onclick="goActionLog()"><i class="uil uil-file-alt"></i> Action Log</li>
 <hr>
 <li onclick="accountPage()"><i class="uil uil-user"></i> Account</li>
 <li onclick="logout()"><i class="uil uil-signout"></i> Logout</li>

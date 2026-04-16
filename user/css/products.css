@@ -298,3 +298,119 @@ cursor:pointer;
 .ok-btn:hover{
 background:#1d4ed8;
 } */
+
+/* ===== COMMON TABLE CARD (same as Products) ===== */
+.products-card {
+    background: #f9fafb;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* ===== HEADER ===== */
+.products-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.products-header h2 {
+    color: #2563eb;
+    font-weight: 600;
+}
+
+/* ===== EXPORT BUTTON ===== */
+.export-btn {
+    background: #16a34a;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.export-btn:hover {
+    background: #15803d;
+}
+
+/* ===== DATATABLE FIX ===== */
+.dataTables_wrapper .dataTables_length,
+.dataTables_wrapper .dataTables_filter {
+    margin-bottom: 10px;
+}
+
+/* ===== TABLE DESIGN (MAIN PART) ===== */
+#logTable {
+    width: 100% !important;
+    border-collapse: separate !important;
+    border-spacing: 0 8px; /* spacing between rows */
+}
+
+/* HEADER */
+#logTable thead th {
+    background: #1d4ed8;
+    color: white;
+    padding: 12px;
+    border: none;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* ROUNDED HEADER */
+#logTable thead th:first-child {
+    border-top-left-radius: 10px;
+}
+#logTable thead th:last-child {
+    border-top-right-radius: 10px;
+}
+
+/* ROW STYLE */
+#logTable tbody tr {
+    background: white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    text-align: center;
+}
+
+/* CELL STYLE */
+#logTable tbody td {
+    padding: 12px;
+    border: none;
+}
+
+/* REMOVE DEFAULT DATATABLE BORDERS */
+table.dataTable.no-footer {
+    border-bottom: none !important;
+}
+
+/* PAGINATION ALIGN */
+.dataTables_paginate {
+    margin-top: 10px;
+}
+
+/* ===== MODERN MINIMAL BADGES ===== */
+.badge {
+    display: inline-block;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 999px;
+    background: #f3f4f6;
+    color: #374151;
+}
+
+/* Action types (soft colors, not loud) */
+.badge-transfer {
+    background: #e0edff;
+    color: #2563eb;
+}
+
+.badge-dispose {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.badge-sale {
+    background: #dcfce7;
+    color: #16a34a;
+}
