@@ -134,6 +134,8 @@ if($action == "approve"){
 
         remarks VARCHAR(250),
 
+        prod_name VARCHAR(250),
+
         days_left_at_action INT,
 
         risk_score_at_action INT,
