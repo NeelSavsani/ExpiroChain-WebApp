@@ -10,9 +10,9 @@ $user_id = $_SESSION['user_id'];
 
 /* CONNECT MAIN DATABASE */
 
-$main_conn = mysqli_connect("localhost","root","","exch_user");
+$main_conn = mysqli_connect("localhost", "root", "", "exch_user");
 
-if(!$main_conn){
+if (!$main_conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
@@ -23,16 +23,16 @@ $listed_items = [];
 $list_query = "SELECT stock_id FROM marketplace_listings 
 WHERE firm_id='$user_id' AND status='Active'";
 
-$list_res = mysqli_query($main_conn,$list_query);
+$list_res = mysqli_query($main_conn, $list_query);
 
-while($l = mysqli_fetch_assoc($list_res)){
+while ($l = mysqli_fetch_assoc($list_res)) {
     $listed_items[] = $l['stock_id'];
 }
 
 /* GET USER DATABASE */
 
 $q = "SELECT dbname FROM user_verification WHERE user_id='$user_id'";
-$res = mysqli_query($main_conn,$q);
+$res = mysqli_query($main_conn, $q);
 
 $row = mysqli_fetch_assoc($res);
 
@@ -40,9 +40,9 @@ $dbname = $row['dbname'];
 
 /* CONNECT FIRM DATABASE */
 
-$conn = mysqli_connect("localhost","root","",$dbname);
+$conn = mysqli_connect("localhost", "root", "", $dbname);
 
-if(!$conn){
+if (!$conn) {
     die("Firm DB connection failed: " . mysqli_connect_error());
 }
 
@@ -65,25 +65,22 @@ AND exp_date != '0000-00-00'
 ORDER BY exp_date ASC
 ";
 
-$result = mysqli_query($conn,$query);
+$result = mysqli_query($conn, $query);
 
-if(!$result){
+if (!$result) {
     die(mysqli_error($conn));
 }
 
-while($row = mysqli_fetch_assoc($result)){
+while ($row = mysqli_fetch_assoc($result)) {
 
     $seconds_left = intval($row['seconds_left']);
 
     /* EXPIRED */
 
-    if($seconds_left <= 0){
+    if ($seconds_left <= 0) {
 
         $expired[] = $row;
-
-    }
-
-    else{
+    } else {
 
         $days_left = floor($seconds_left / 86400);
 
@@ -91,15 +88,14 @@ while($row = mysqli_fetch_assoc($result)){
         $minutes = floor(($seconds_left % 3600) / 60);
         $seconds = $seconds_left % 60;
 
-        $time_left = sprintf("%02d:%02d:%02d",$hours,$minutes,$seconds);
+        $time_left = sprintf("%02d:%02d:%02d", $hours, $minutes, $seconds);
 
-        if($days_left <= 30){
+        if ($days_left <= 30) {
 
             $row['days_left'] = $days_left;
             $row['time_left'] = $time_left;
 
             $soon[] = $row;
-
         }
     }
 }
@@ -110,370 +106,472 @@ while($row = mysqli_fetch_assoc($result)){
 
 <head>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Expiry Tracker | EXPIROCHAIN</title>
+    <title>Expiry Tracker | EXPIROCHAIN</title>
 
-<link rel="shortcut icon" href="/exp/images/favicon/android-chrome-192x192.png" />
-<link rel="stylesheet" href="/exp/css/home.css" />
-<link rel="stylesheet" href="/exp/user/css/expiry_tracker.css" />
+    <link rel="shortcut icon" href="/exp/images/favicon/android-chrome-192x192.png" />
+    <link rel="stylesheet" href="/exp/css/home.css" />
+    <link rel="stylesheet" href="/exp/user/css/expiry_tracker.css" />
 
 </head>
 
 <body>
 
-<?php include "layout.php"; ?>
+    <?php include "layout.php"; ?>
 
-<br><br><br>
+    <br><br><br>
 
-<!-- EXPIRING SOON -->
+    <!-- EXPIRING SOON -->
 
-<div class="register-card">
+    <div class="register-card">
 
-<h3 class="section-heading">Expiring Within 30 Days</h3>
+        <h3 class="section-heading">Expiring Within 30 Days</h3>
 
-<table class="admin-table">
+        <table class="admin-table">
 
-<?php if(!empty($soon)){ ?>
+            <?php if (!empty($soon)) { ?>
 
-<thead>
+                <thead>
 
-<tr>
-<th>Name</th>
-<th>Batch</th>
-<th>Qty</th>
-<th>Expiry</th>
-<th>Days Left</th>
-<th>Action</th>
-</tr>
+                    <tr>
+                        <th>Name</th>
+                        <th>Batch</th>
+                        <th>Qty</th>
+                        <th>Expiry</th>
+                        <th>Days Left</th>
+                        <th>Action</th>
+                    </tr>
 
-</thead>
+                </thead>
 
-<tbody>
+                <tbody>
 
-<?php foreach($soon as $row){
+                    <?php foreach ($soon as $row) {
 
-$days = $row['days_left'];
+                        $days = $row['days_left'];
 
-$row_class = ($days <= 7) ? "critical-expiry" : "warning-expiry";
+                        $row_class = ($days <= 7) ? "critical-expiry" : "warning-expiry";
 
-?>
+                    ?>
 
-<tr class="<?php echo $row_class; ?>">
+                        <tr class="<?php echo $row_class; ?>">
 
-<td><?php echo $row['prod_name']; ?></td>
+                            <td><?php echo $row['prod_name']; ?></td>
 
-<td><?php echo $row['batch_no']; ?></td>
+                            <td><?php echo $row['batch_no']; ?></td>
 
-<td><?php echo $row['qty']; ?></td>
+                            <td><?php echo $row['qty']; ?></td>
 
-<td><?php echo $row['exp_date']; ?></td>
+                            <td><?php echo $row['exp_date']; ?></td>
 
-<td>
+                            <td>
 
-<?php
+                                <?php
 
-if($days <= 1){
+                                if ($days <= 1) {
 
-echo "<span class='risk-badge critical countdown' data-seconds='".$row['seconds_left']."'>".$row['time_left']."</span>";
+                                    echo "<span class='risk-badge critical countdown' data-seconds='" . $row['seconds_left'] . "'>" . $row['time_left'] . "</span>";
+                                } elseif ($days <= 7) {
 
-}
-elseif($days <= 7){
+                                    echo "<span class='risk-badge critical'>" . $days . " days</span>";
+                                } else {
 
-echo "<span class='risk-badge critical'>".$days." days</span>";
+                                    echo "<span class='risk-badge warning'>" . $days . " days</span>";
+                                }
 
-}
-else{
+                                ?>
 
-echo "<span class='risk-badge warning'>".$days." days</span>";
+                            </td>
 
-}
+                            <td>
 
-?>
+                                <?php if (in_array($row['stock_id'], $listed_items)) { ?>
 
-</td>
+                                    <form action="revoke_listing.php" method="POST" onsubmit="return confirm('Revoke this listing?');">
 
-<td>
+                                        <input type="hidden" name="stock_id" value="<?php echo $row['stock_id']; ?>">
 
-<?php if(in_array($row['stock_id'],$listed_items)){ ?>
+                                        <button class="revoke-btn">
+                                            Revoke
+                                        </button>
 
-<form action="revoke_listing.php" method="POST" onsubmit="return confirm('Revoke this listing?');">
+                                    </form>
 
-<input type="hidden" name="stock_id" value="<?php echo $row['stock_id']; ?>">
+                                <?php } else { ?>
 
-<button class="revoke-btn">
-Revoke
-</button>
+                                    <button
+                                        class="sale-btn"
+                                        data-stock="<?php echo $row['stock_id']; ?>"
+                                        data-name="<?php echo htmlspecialchars($row['prod_name']); ?>"
+                                        data-batch="<?php echo $row['batch_no']; ?>"
+                                        data-qty="<?php echo $row['qty']; ?>"
+                                        data-exp="<?php echo $row['exp_date']; ?>">
+                                        List For Sale
+                                    </button>
 
-</form>
+                                <?php } ?>
 
-<?php } else { ?>
+                            </td>
 
-<button
-class="sale-btn"
-data-stock="<?php echo $row['stock_id']; ?>"
-data-name="<?php echo htmlspecialchars($row['prod_name']); ?>"
-data-batch="<?php echo $row['batch_no']; ?>"
-data-qty="<?php echo $row['qty']; ?>"
-data-exp="<?php echo $row['exp_date']; ?>"
->
-List For Sale
-</button>
+                        </tr>
 
-<?php } ?>
+                    <?php } ?>
 
-</td>
+                </tbody>
 
-</tr>
+            <?php } else { ?>
 
-<?php } ?>
+                <tbody>
 
-</tbody>
+                    <tr>
 
-<?php } else { ?>
+                        <td colspan="6" style="text-align:center;padding:20px;">
+                            No medicines expiring within 30 days
+                        </td>
 
-<tbody>
+                    </tr>
 
-<tr>
+                </tbody>
 
-<td colspan="6" style="text-align:center;padding:20px;">
-No medicines expiring within 30 days
-</td>
+            <?php } ?>
 
-</tr>
+        </table>
 
-</tbody>
+    </div>
 
-<?php } ?>
+    <!-- EXPIRED -->
 
-</table>
+    <div class="register-card">
 
-</div>
+        <h3 class="section-heading">Expired Medicines</h3>
 
-<!-- EXPIRED -->
+        <table class="admin-table">
 
-<div class="register-card">
+            <?php if (!empty($expired)) { ?>
 
-<h3 class="section-heading">Expired Medicines</h3>
+                <thead>
 
-<table class="admin-table">
+                    <tr>
+                        <th>Name</th>
+                        <th>Batch</th>
+                        <th>Qty</th>
+                        <th>Expired On</th>
+                        <th>Action</th>
+                    </tr>
 
-<?php if(!empty($expired)){ ?>
+                </thead>
 
-<thead>
+                <tbody>
 
-<tr>
-<th>Name</th>
-<th>Batch</th>
-<th>Qty</th>
-<th>Expired On</th>
-<th>Action</th>
-</tr>
+                    <?php foreach ($expired as $row) { ?>
 
-</thead>
+                        <tr>
 
-<tbody>
+                            <td><?php echo $row['prod_name']; ?></td>
+                            <td><?php echo $row['batch_no']; ?></td>
+                            <td><?php echo $row['qty']; ?></td>
+                            <td><?php echo $row['exp_date']; ?></td>
 
-<?php foreach($expired as $row){ ?>
+                            <td>
+                                <!-- <button>Dispose</button> -->
+                                <button
+                                    class="dispose-btn"
+                                    data-stock="<?php echo $row['stock_id']; ?>"
+                                    data-name="<?php echo htmlspecialchars($row['prod_name']); ?>"
+                                    data-qty="<?php echo $row['qty']; ?>">
+                                    Dispose
+                                </button>
+                            </td>
 
-<tr>
+                        </tr>
 
-<td><?php echo $row['prod_name']; ?></td>
-<td><?php echo $row['batch_no']; ?></td>
-<td><?php echo $row['qty']; ?></td>
-<td><?php echo $row['exp_date']; ?></td>
+                    <?php } ?>
 
-<td>
-<button>Dispose</button>
-</td>
+                </tbody>
 
-</tr>
+            <?php } else { ?>
 
-<?php } ?>
+                <tbody>
 
-</tbody>
+                    <tr>
 
-<?php } else { ?>
+                        <td colspan="5" style="text-align:center;padding:20px;">
+                            No expired medicines
+                        </td>
 
-<tbody>
+                    </tr>
 
-<tr>
+                </tbody>
 
-<td colspan="5" style="text-align:center;padding:20px;">
-No expired medicines
-</td>
+            <?php } ?>
 
-</tr>
+        </table>
 
-</tbody>
+    </div>
 
-<?php } ?>
+    <!-- SALE POPUP -->
 
-</table>
+    <div id="salePopup" class="popup">
 
-</div>
+        <div class="popup-content">
 
-<!-- SALE POPUP -->
+            <h3>List Medicine For Sale</h3>
 
-<div id="salePopup" class="popup">
+            <form id="saleForm">
 
-<div class="popup-content">
+                <input type="hidden" id="stock_id" name="stock_id">
 
-<h3>List Medicine For Sale</h3>
+                <label>Product</label>
+                <input type="text" id="prod_name" name="prod_name" readonly>
 
-<form id="saleForm">
+                <label>Batch</label>
+                <input type="text" id="batch_no" name="batch_no" readonly>
 
-<input type="hidden" id="stock_id" name="stock_id">
+                <label>Quantity to List</label>
+                <input type="number" id="qty" name="qty" required>
 
-<label>Product</label>
-<input type="text" id="prod_name" name="prod_name" readonly>
+                <label>Total Rate</label>
+                <input type="number" id="total_rate" name="total_rate" required>
 
-<label>Batch</label>
-<input type="text" id="batch_no" name="batch_no" readonly>
+                <label>Expiry</label>
+                <input type="text" id="exp_date" name="exp_date" readonly>
 
-<label>Quantity to List</label>
-<input type="number" id="qty" name="qty" required>
+                <br><br>
 
-<label>Total Rate</label>
-<input type="number" id="total_rate" name="total_rate" required>
+                <div class="popup-buttons">
+                    <button type="submit">Confirm Listing</button>
+                    <button type="button" onclick="closePopup()">Cancel</button>
+                </div>
 
-<label>Expiry</label>
-<input type="text" id="exp_date" name="exp_date" readonly>
+            </form>
 
-<br><br>
+        </div>
 
-<div class="popup-buttons">
-<button type="submit">Confirm Listing</button>
-<button type="button" onclick="closePopup()">Cancel</button>
-</div>
+    </div>
 
-</form>
+    <!-- DISPOSE POPUP -->
 
-</div>
+    <div id="disposePopup" class="popup">
 
-</div>
+        <div class="popup-content">
 
-<script>
+            <h3>Dispose Medicine</h3>
 
-let currentButton = null;
+            <form id="disposeForm">
 
-/* OPEN POPUP */
+                <input type="hidden" id="d_stock_id" name="stock_id">
+                <input type="hidden" id="d_prod_name" name="prod_name">
+                <input type="hidden" id="d_qty" name="qty">
 
-document.querySelectorAll(".sale-btn").forEach(btn => {
+                <label>Performed By</label>
+                <input type="text" id="performed_by" name="performed_by" required>
 
-btn.addEventListener("click", function(){
+                <label>Password</label>
 
-currentButton = this;
+                <div style="position:relative; width:95%">
+                    <input type="password" id="password" name="password" required style="width:100%;padding-right:35px;">
+                    <i class="fa fa-eye" id="togglePassword"
+                        style="position:absolute; right:-30px; top:50%; transform:translateY(-50%); cursor:pointer;"></i>
+                </div>
 
-document.getElementById("salePopup").style.display="flex";
+                <br><br>
 
-document.getElementById("stock_id").value = this.dataset.stock;
-document.getElementById("prod_name").value = this.dataset.name;
-document.getElementById("batch_no").value = this.dataset.batch;
-document.getElementById("qty").value = this.dataset.qty;
-document.getElementById("exp_date").value = this.dataset.exp;
+                <div class="popup-buttons">
+                    <button type="submit">Confirm Dispose</button>
+                    <button type="button" onclick="closeDispose()">Cancel</button>
+                </div>
 
-});
+            </form>
 
-});
+        </div>
 
-/* CLOSE POPUP */
+    </div>
 
-function closePopup(){
-document.getElementById("salePopup").style.display="none";
-}
+    <script>
+        /* OPEN DISPOSE POPUP */
 
-/* SUBMIT */
+        document.querySelectorAll(".dispose-btn").forEach(btn => {
 
-document.getElementById("saleForm").addEventListener("submit", function(e){
+            btn.addEventListener("click", function() {
 
-e.preventDefault();
+                document.getElementById("disposePopup").style.display = "flex";
 
-let formData = new FormData(this);
+                document.getElementById("d_stock_id").value = this.dataset.stock;
+                document.getElementById("d_prod_name").value = this.dataset.name;
+                document.getElementById("d_qty").value = this.dataset.qty;
 
-fetch("list_for_sale.php",{
-method:"POST",
-body:formData
-})
-.then(res => res.text())
-.then(data => {
+            });
 
-if(data.includes("success")){
+        });
 
-closePopup();
+        /* CLOSE */
 
-if(currentButton){
+        function closeDispose() {
+            document.getElementById("disposePopup").style.display = "none";
+        }
 
-let stockId = currentButton.dataset.stock;
+        /* TOGGLE PASSWORD */
 
-/* 🔥 REPLACE BUTTON WITH REVOKE FORM */
+        document.getElementById("togglePassword").addEventListener("click", function() {
 
-currentButton.outerHTML = `
+            let pass = document.getElementById("password");
+
+            if (pass.type === "password") {
+                pass.type = "text";
+                this.classList.remove("fa-eye");
+                this.classList.add("fa-eye-slash");
+            } else {
+                pass.type = "password";
+                this.classList.remove("fa-eye-slash");
+                this.classList.add("fa-eye");
+            }
+
+        });
+
+        /* SUBMIT DISPOSE */
+
+        document.getElementById("disposeForm").addEventListener("submit", function(e) {
+
+            e.preventDefault();
+
+            let formData = new FormData(this);
+
+            fetch("dispose_stock.php", {
+                    method: "POST",
+                    body: formData
+                })
+                .then(res => res.text())
+                .then(data => {
+
+                    console.log(data);
+
+                    if (data.trim() === "success") {
+                        alert("Disposed successfully");
+                        location.reload();
+                    } else {
+                        alert("Error disposing stock");
+                    }
+
+                });
+
+        });
+    </script>
+
+    <script>
+        let currentButton = null;
+
+        /* OPEN POPUP */
+
+        document.querySelectorAll(".sale-btn").forEach(btn => {
+
+            btn.addEventListener("click", function() {
+
+                currentButton = this;
+
+                document.getElementById("salePopup").style.display = "flex";
+
+                document.getElementById("stock_id").value = this.dataset.stock;
+                document.getElementById("prod_name").value = this.dataset.name;
+                document.getElementById("batch_no").value = this.dataset.batch;
+                document.getElementById("qty").value = this.dataset.qty;
+                document.getElementById("exp_date").value = this.dataset.exp;
+
+            });
+
+        });
+
+        /* CLOSE POPUP */
+
+        function closePopup() {
+            document.getElementById("salePopup").style.display = "none";
+        }
+
+        /* SUBMIT */
+
+        document.getElementById("saleForm").addEventListener("submit", function(e) {
+
+            e.preventDefault();
+
+            let formData = new FormData(this);
+
+            fetch("list_for_sale.php", {
+                    method: "POST",
+                    body: formData
+                })
+                .then(res => res.text())
+                .then(data => {
+
+                    if (data.includes("success")) {
+
+                        closePopup();
+
+                        if (currentButton) {
+
+                            let stockId = currentButton.dataset.stock;
+
+                            /* 🔥 REPLACE BUTTON WITH REVOKE FORM */
+
+                            currentButton.outerHTML = `
 <form action="revoke_listing.php" method="POST" onsubmit="return confirm('Revoke this listing?');">
 <input type="hidden" name="stock_id" value="${stockId}">
 <button class="revoke-btn">Revoke</button>
 </form>
 `;
-}
+                        }
 
-}
+                    } else if (data.trim() === "already_listed") {
+                        alert("Already listed in marketplace");
+                    } else {
+                        alert("Error listing medicine");
+                    }
 
-else if(data.trim() === "already_listed"){
-alert("Already listed in marketplace");
-}
+                });
 
-else{
-alert("Error listing medicine");
-}
+        });
+    </script>
 
-});
+    <script>
+        function formatTime(seconds) {
 
-});
+            let hrs = Math.floor(seconds / 3600);
+            let mins = Math.floor((seconds % 3600) / 60);
+            let secs = seconds % 60;
 
-</script>
+            return String(hrs).padStart(2, '0') + ":" +
+                String(mins).padStart(2, '0') + ":" +
+                String(secs).padStart(2, '0');
+        }
 
-<script>
+        function startCountdown() {
 
-function formatTime(seconds){
+            const timers = document.querySelectorAll(".countdown");
 
-    let hrs = Math.floor(seconds / 3600);
-    let mins = Math.floor((seconds % 3600) / 60);
-    let secs = seconds % 60;
+            timers.forEach(timer => {
 
-    return String(hrs).padStart(2,'0') + ":" +
-           String(mins).padStart(2,'0') + ":" +
-           String(secs).padStart(2,'0');
-}
+                let seconds = parseInt(timer.dataset.seconds);
 
-function startCountdown(){
+                setInterval(() => {
 
-    const timers = document.querySelectorAll(".countdown");
+                    if (seconds <= 0) {
+                        timer.innerText = "Expired";
+                        return;
+                    }
 
-    timers.forEach(timer => {
+                    seconds--;
 
-        let seconds = parseInt(timer.dataset.seconds);
+                    timer.innerText = formatTime(seconds);
 
-        setInterval(() => {
+                }, 1000);
 
-            if(seconds <= 0){
-                timer.innerText = "Expired";
-                return;
-            }
+            });
 
-            seconds--;
+        }
 
-            timer.innerText = formatTime(seconds);
-
-        },1000);
-
-    });
-
-}
-
-startCountdown();
-
-</script>
+        startCountdown();
+    </script>
 
 </body>
+
 </html>

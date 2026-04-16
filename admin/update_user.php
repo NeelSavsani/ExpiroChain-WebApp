@@ -126,7 +126,7 @@ if($action == "approve"){
 
         stock_id INT NOT NULL,
 
-        action_type ENUM('Transfer','Donate','Dispose','Sale','Adjust') NOT NULL,
+        action_type ENUM('Transfer','Donate','Dispose') NOT NULL,
 
         qty INT NOT NULL,
 
@@ -146,12 +146,6 @@ if($action == "approve"){
 
         INDEX idx_stock_id(stock_id),
         INDEX idx_action_type(action_type),
-
-        CONSTRAINT fk_action_stock
-        FOREIGN KEY (stock_id)
-        REFERENCES stock_table(stock_id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
 
     ) ENGINE=InnoDB
     ";

@@ -309,6 +309,7 @@ window.stockPage = () => window.location.href = "/exp/user/stock.php";
 window.expiryalertPage = () => window.location.href = "/exp/user/expiry_tracker.php";
 window.requestsPage = () => window.location.href = "/exp/user/received_requests.php";
 window.accountPage = () => window.location.href = "/exp/user/account.php";
+window.goActionLog = () => window.location.href = "/exp/user/action_log.php";
 window.logout = () => window.location.href = "/exp/logout.php";
 
 });
