@@ -12,10 +12,10 @@ $user_id = $_SESSION['user_id'];
 /* ---------------- GET USER DATABASE ---------------- */
 
 $q = "SELECT dbname FROM user_verification WHERE user_id = $user_id";
-$r = mysqli_query($conn,$q);
+$r = mysqli_query($conn, $q);
 $data = mysqli_fetch_assoc($r);
 
-if(!$data){
+if (!$data) {
     die("Database not found");
 }
 
@@ -23,7 +23,7 @@ $dbname = $data['dbname'];
 
 /* ---------------- SWITCH DATABASE ---------------- */
 
-mysqli_select_db($conn,$dbname);
+mysqli_select_db($conn, $dbname);
 
 /* ---------------- GET FORM DATA ---------------- */
 
@@ -36,19 +36,19 @@ $expiry_applicable = isset($_POST['expiry_applicable']) ? 1 : 0;
 
 /* ---------------- VALIDATION ---------------- */
 
-if(empty($barcode) || empty($prod_name) || empty($category)){
+if (empty($barcode) || empty($prod_name) || empty($category)) {
     die("<script>alert('Required fields missing');history.back();</script>");
 }
 
 /* ---------------- DUPLICATE BARCODE CHECK ---------------- */
 
-$check = mysqli_query($conn,"
+$check = mysqli_query($conn, "
 SELECT prod_id 
 FROM prod_table 
 WHERE barcode = '$barcode'
 ");
 
-if(mysqli_num_rows($check) > 0){
+if (mysqli_num_rows($check) > 0) {
     echo "<script>
     alert('Product with this barcode already exists');
     window.history.back();
@@ -65,9 +65,9 @@ VALUES
 ('$barcode','$prod_name','$category','$manufacturer','$expiry_applicable')
 ";
 
-$result = mysqli_query($conn,$sql);
+$result = mysqli_query($conn, $sql);
 
-if(!$result){
+if (!$result) {
     die("Product insert failed");
 }
 
@@ -77,5 +77,3 @@ echo "<script>
 alert('Product added successfully');
 window.location.href='/exp/user/add_product.php';
 </script>";
-
-?>

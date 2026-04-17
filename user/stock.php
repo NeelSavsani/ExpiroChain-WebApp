@@ -15,7 +15,7 @@ $q = "SELECT dbname FROM user_verification WHERE user_id = $user_id";
 $r = mysqli_query($conn, $q);
 $data = mysqli_fetch_assoc($r);
 
-if(!$data){
+if (!$data) {
     die("Database not found");
 }
 
@@ -28,7 +28,7 @@ mysqli_select_db($conn, $dbname);
 $query = "SELECT * FROM stock_table ORDER BY added_at DESC";
 $result = mysqli_query($conn, $query);
 
-if(!$result){
+if (!$result) {
     die("Failed to fetch stock");
 }
 ?>
@@ -38,157 +38,157 @@ if(!$result){
 
 <head>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Stock | EXPIROCHAIN</title>
+    <title>Stock | EXPIROCHAIN</title>
 
-<link rel="shortcut icon" href="/exp/images/favicon/android-chrome-192x192.png" />
-<link rel="stylesheet" href="/exp/css/home.css" />
-<link rel="stylesheet" href="/exp/user/css/products.css" />
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
-<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+    <link rel="shortcut icon" href="/exp/images/favicon/android-chrome-192x192.png" />
+    <link rel="stylesheet" href="/exp/css/home.css" />
+    <link rel="stylesheet" href="/exp/user/css/products.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
 
 </head>
 
 <body>
 
-<?php include "layout.php"; ?>
+    <?php include "layout.php"; ?>
 
-<div class="container">
+    <div class="container">
 
-<div class="products-card">
+        <div class="products-card">
 
-<div class="products-header">
+            <div class="products-header">
 
-<h2>Stock</h2>
+                <h2>Stock</h2>
 
-<div>
+                <div>
 
-<a href="/exp/user/add_stock.php" class="add-product-btn">
-<i class="fa-solid fa-plus"></i> Add Stock
-</a>
+                    <a href="/exp/user/add_stock.php" class="add-product-btn">
+                        <i class="fa-solid fa-plus"></i> Add Stock
+                    </a>
 
-<button onclick="openExportPopup()" class="export-btn">
-<i class="fa-solid fa-file-export"></i> Export
-</button>
-
-
-</div>
-
-</div>
-
-<table id="productTable">
-
-<thead>
-<tr>
-<th>ID</th>
-<th>Product Name</th>
-<th>Batch No.</th>
-<th>Expiry Date</th>
-<th>Quantity</th>
-<th>Added At</th>
-</tr>
-</thead>
-
-<tbody>
-
-<?php
-while($row = mysqli_fetch_assoc($result)){
-?>
-
-<tr>
-
-<td><?php echo htmlspecialchars($row['stock_id']); ?></td>
-
-<td><?php echo htmlspecialchars($row['prod_name']); ?></td>
-
-<td><?php echo htmlspecialchars($row['batch_no']); ?></td>
-
-<td>
-<?php
-if($row['exp_date'] == "0000-00-00" || empty($row['exp_date'])){
-echo "NULL";
-}else{
-echo date("d M Y", strtotime($row['exp_date']));
-}
-?>
-</td>
-
-<td><?php echo htmlspecialchars($row['qty']); ?></td>
-
-<td><?php echo date("d M Y | h:i A", strtotime($row['added_at'])); ?></td>
-
-</tr>
-
-<?php
-}
-?>
-
-</tbody>
-
-</table>
-
-</div>
-
-<footer>
-© <?php echo date('Y'); ?> EXPIROCHAIN
-</footer>
-
-</div>
-
-<!-- EXPORT POPUP -->
-<?php include "export.php"; ?>
+                    <button onclick="openExportPopup()" class="export-btn">
+                        <i class="fa-solid fa-file-export"></i> Export
+                    </button>
 
 
-<script src="/exp/user/export.js"></script>
+                </div>
+
+            </div>
+
+            <table id="productTable">
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Product Name</th>
+                        <th>Batch No.</th>
+                        <th>Expiry Date</th>
+                        <th>Quantity</th>
+                        <th>Added At</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <?php
+                    while ($row = mysqli_fetch_assoc($result)) {
+                    ?>
+
+                        <tr>
+
+                            <td><?php echo htmlspecialchars($row['stock_id']); ?></td>
+
+                            <td><?php echo htmlspecialchars($row['prod_name']); ?></td>
+
+                            <td><?php echo htmlspecialchars($row['batch_no']); ?></td>
+
+                            <td>
+                                <?php
+                                if ($row['exp_date'] == "0000-00-00" || empty($row['exp_date'])) {
+                                    echo "NULL";
+                                } else {
+                                    echo date("d M Y", strtotime($row['exp_date']));
+                                }
+                                ?>
+                            </td>
+
+                            <td><?php echo htmlspecialchars($row['qty']); ?></td>
+
+                            <td><?php echo date("d M Y | h:i A", strtotime($row['added_at'])); ?></td>
+
+                        </tr>
+
+                    <?php
+                    }
+                    ?>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <footer>
+            © <?php echo date('Y'); ?> EXPIROCHAIN
+        </footer>
+
+    </div>
+
+    <!-- EXPORT POPUP -->
+    <?php include "export.php"; ?>
 
 
-<script>
+    <script src="/exp/user/export.js"></script>
 
-window.exportTable = null;
 
-$(document).ready(function(){
+    <script>
+        window.exportTable = null;
 
-exportTable = $('#productTable').DataTable({
+        $(document).ready(function() {
 
-autoWidth:false,
-pageLength:10,
-order:[[0,'desc']],
+            exportTable = $('#productTable').DataTable({
 
-dom:'lBfrtip',
+                autoWidth: false,
+                pageLength: 10,
+                order: [
+                    [0, 'desc']
+                ],
 
-buttons:[
-{
-extend:'csv',
-title:'EXPIROCHAIN Stocks'
-},
-{
-extend:'excel',
-title:'EXPIROCHAIN Stocks'
-},
-{
-extend:'pdf',
-title:'EXPIROCHAIN Stocks'
-}
-]
+                dom: 'lBfrtip',
 
-});
+                buttons: [{
+                        extend: 'csv',
+                        title: 'EXPIROCHAIN Stocks'
+                    },
+                    {
+                        extend: 'excel',
+                        title: 'EXPIROCHAIN Stocks'
+                    },
+                    {
+                        extend: 'pdf',
+                        title: 'EXPIROCHAIN Stocks'
+                    }
+                ]
 
-/* hide default datatable buttons */
+            });
 
-exportTable.buttons().container().hide();
+            /* hide default datatable buttons */
 
-});
+            exportTable.buttons().container().hide();
 
-</script>
+        });
+    </script>
 
 </body>
+
 </html>

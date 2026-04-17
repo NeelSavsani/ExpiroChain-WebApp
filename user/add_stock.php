@@ -12,10 +12,10 @@ $user_id = $_SESSION['user_id'];
 /* GET USER DATABASE */
 
 $q = "SELECT dbname FROM user_verification WHERE user_id = $user_id";
-$r = mysqli_query($conn,$q);
+$r = mysqli_query($conn, $q);
 $data = mysqli_fetch_assoc($r);
 
-if(!$data){
+if (!$data) {
     die("Database not found");
 }
 
@@ -23,7 +23,7 @@ $dbname = $data['dbname'];
 
 /* SWITCH DATABASE */
 
-mysqli_select_db($conn,$dbname);
+mysqli_select_db($conn, $dbname);
 
 $today = date("Y-m-d");
 ?>
@@ -33,135 +33,133 @@ $today = date("Y-m-d");
 
 <head>
 
-<meta charset="UTF-8">
-<title>Add Stock | EXPIROCHAIN</title>
+    <meta charset="UTF-8">
+    <title>Add Stock | EXPIROCHAIN</title>
 
-<link rel="shortcut icon" href="/exp/images/favicon/android-chrome-192x192.png">
-<link rel="stylesheet" href="/exp/css/home.css">
-<link rel="stylesheet" href="/exp/user/css/add_product.css">
+    <link rel="shortcut icon" href="/exp/images/favicon/android-chrome-192x192.png">
+    <link rel="stylesheet" href="/exp/css/home.css">
+    <link rel="stylesheet" href="/exp/user/css/add_product.css">
 
 </head>
 
 <body>
 
-<?php include "layout.php"; ?>
+    <?php include "layout.php"; ?>
 
-<div class="dashboard">
+    <div class="dashboard">
 
-<div class="add-product-card">
+        <div class="add-product-card">
 
-<h2>Add Stock</h2>
+            <h2>Add Stock</h2>
 
-<form action="save_stock.php" method="POST">
+            <form action="save_stock.php" method="POST">
 
-<!-- BARCODE -->
+                <!-- BARCODE -->
 
-<label>Barcode</label>
-<input type="text" name="barcode" id="barcode" required>
+                <label>Barcode</label>
+                <input type="text" name="barcode" id="barcode" required>
 
-<!-- PRODUCT NAME -->
+                <!-- PRODUCT NAME -->
 
-<label>Product Name</label>
-<input type="text" name="prod_name" id="prod_name" readonly>
+                <label>Product Name</label>
+                <input type="text" name="prod_name" id="prod_name" readonly>
 
-<!-- BATCH NUMBER -->
+                <!-- BATCH NUMBER -->
 
-<label>Batch Number</label>
-<input type="text" name="batch_no" required>
+                <label>Batch Number</label>
+                <input type="text" name="batch_no" required>
 
-<!-- EXPIRY DATE -->
+                <!-- EXPIRY DATE -->
 
-<label>Expiry Date</label>
-<input
-type="date"
-name="exp_date"
-id="exp_date"
-min="<?php echo $today; ?>"
->
+                <label>Expiry Date</label>
+                <input
+                    type="date"
+                    name="exp_date"
+                    id="exp_date"
+                    min="<?php echo $today; ?>">
 
-<!-- QUANTITY -->
+                <!-- QUANTITY -->
 
-<label>Quantity</label>
-<input type="number" name="qty" min="1" required>
+                <label>Quantity</label>
+                <input type="number" name="qty" min="1" required>
 
-<!-- BUTTONS -->
+                <!-- BUTTONS -->
 
-<div class="form-buttons">
+                <div class="form-buttons">
 
-<button type="submit" class="btn-add">
-Add Stock
-</button>
+                    <button type="submit" class="btn-add">
+                        Add Stock
+                    </button>
 
-<button type="reset" class="btn-reset">
-Reset
-</button>
+                    <button type="reset" class="btn-reset">
+                        Reset
+                    </button>
 
-</div>
+                </div>
 
-</form>
+            </form>
 
-</div>
+        </div>
 
-</div>
+    </div>
 
-<footer>
-© <?php echo date('Y'); ?> EXPIROCHAIN and Team
-</footer>
+    <footer>
+        © <?php echo date('Y'); ?> EXPIROCHAIN and Team
+    </footer>
 
-<script>
+    <script>
+        /* SET MIN DATE TO TODAY */
 
-/* SET MIN DATE TO TODAY */
-
-const today = new Date().toISOString().split("T")[0];
-document.getElementById("exp_date").setAttribute("min", today);
+        const today = new Date().toISOString().split("T")[0];
+        document.getElementById("exp_date").setAttribute("min", today);
 
 
-/* FETCH PRODUCT NAME FROM BARCODE */
+        /* FETCH PRODUCT NAME FROM BARCODE */
 
-const barcodeField = document.getElementById("barcode");
+        const barcodeField = document.getElementById("barcode");
 
-barcodeField.addEventListener("change", function(){
+        barcodeField.addEventListener("change", function() {
 
-let barcode = this.value.trim();
+            let barcode = this.value.trim();
 
-if(barcode === "") return;
+            if (barcode === "") return;
 
-fetch("get_product_by_barcode.php?barcode=" + barcode)
+            fetch("get_product_by_barcode.php?barcode=" + barcode)
 
-.then(response => response.json())
+                .then(response => response.json())
 
-.then(data => {
+                .then(data => {
 
-if(data.status === "success"){
+                    if (data.status === "success") {
 
-document.getElementById("prod_name").value = data.prod_name;
+                        document.getElementById("prod_name").value = data.prod_name;
 
-let expiryField = document.querySelector("input[name='exp_date']");
+                        let expiryField = document.querySelector("input[name='exp_date']");
 
-if(data.expiry_applicable == 0){
+                        if (data.expiry_applicable == 0) {
 
-expiryField.disabled = true;
-expiryField.value = "";
+                            expiryField.disabled = true;
+                            expiryField.value = "";
 
-}else{
+                        } else {
 
-expiryField.disabled = false;
-expiryField.setAttribute("min", today);
+                            expiryField.disabled = false;
+                            expiryField.setAttribute("min", today);
 
-}
+                        }
 
-}else{
+                    } else {
 
-alert("Product not found. Please add product first.");
-document.getElementById("prod_name").value = "";
+                        alert("Product not found. Please add product first.");
+                        document.getElementById("prod_name").value = "";
 
-}
+                    }
 
-});
+                });
 
-});
-
-</script>
+        });
+    </script>
 
 </body>
+
 </html>

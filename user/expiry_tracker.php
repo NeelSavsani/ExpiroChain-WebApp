@@ -45,7 +45,7 @@ $conn = mysqli_connect("localhost", "root", "", $dbname);
 if (!$conn) {
     die("Firm DB connection failed: " . mysqli_connect_error());
 }
-
+    
 $soon = [];
 $expired = [];
 

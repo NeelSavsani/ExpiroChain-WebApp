@@ -2,8 +2,8 @@
 session_start();
 
 if (!isset($_SESSION['user_id'], $_SESSION['firm_name'])) {
-    header("Location: /exp/login.php");
-    exit();
+  header("Location: /exp/login.php");
+  exit();
 }
 
 $firm_name = $_SESSION['firm_name'];
@@ -11,69 +11,71 @@ $firm_name = $_SESSION['firm_name'];
 
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Add Product | EXPIROCHAIN</title>
 
-    <link rel="shortcut icon" href="/exp/images/favicon/android-chrome-192x192.png" />
-    <link rel="stylesheet" href="/exp/css/home.css" />
-    <link rel="stylesheet" href="/exp/user/css/add_product.css" />
-    
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <title>Add Product | EXPIROCHAIN</title>
 
-  <body>
-    <?php include "layout.php"; ?> 
+  <link rel="shortcut icon" href="/exp/images/favicon/android-chrome-192x192.png" />
+  <link rel="stylesheet" href="/exp/css/home.css" />
+  <link rel="stylesheet" href="/exp/user/css/add_product.css" />
 
-    <div class="dashboard">
-      <div class="add-product-card">
-        <h2>Add Product</h2>
+</head>
 
-        <form action="save_product.php" method="POST">
-          <!-- BARCODE -->
+<body>
+  <?php include "layout.php"; ?>
 
-          <label>Barcode</label>
-          <input type="text" name="barcode" required />
+  <div class="dashboard">
+    <div class="add-product-card">
+      <h2>Add Product</h2>
 
-          <!-- PRODUCT NAME -->
+      <form action="save_product.php" method="POST">
+        <!-- BARCODE -->
 
-          <label>Product Name</label>
-          <input type="text" name="prod_name" required />
+        <label>Barcode</label>
+        <input type="text" name="barcode" required />
 
-          <!-- PRODUCT TYPE -->
+        <!-- PRODUCT NAME -->
 
-          <label>Product Type</label>
+        <label>Product Name</label>
+        <input type="text" name="prod_name" required />
 
-          <select name="category" required>
-            <option value="">Select Type</option>
-            <option value="Medicine">Medicine</option>
-            <option value="Cosmetic">Cosmetic</option>
-            <option value="Other">Other</option>
-          </select>
+        <!-- PRODUCT TYPE -->
 
-          <!-- MANUFACTURER -->
+        <label>Product Type</label>
 
-          <label>Manufacturer Name</label>
-          <input type="text" name="manufacturer" />
+        <select name="category" required>
+          <option value="">Select Type</option>
+          <option value="Medicine">Medicine</option>
+          <option value="Cosmetic">Cosmetic</option>
+          <option value="Other">Other</option>
+        </select>
 
-          <!-- EXPIRY CHECKBOX -->
+        <!-- MANUFACTURER -->
 
-          <div class="checkbox-row">
-            <input type="checkbox" name="expiry_applicable" value="1" />
+        <label>Manufacturer Name</label>
+        <input type="text" name="manufacturer" />
 
-            <span>Expiry Applicable</span>
-          </div>
+        <!-- EXPIRY CHECKBOX -->
 
-          <!-- BUTTONS -->
+        <div class="checkbox-row">
+          <input type="checkbox" name="expiry_applicable" value="1" />
 
-          <div class="form-buttons">
-            <button type="submit" class="btn-add">Add</button>
+          <span>Expiry Applicable</span>
+        </div>
 
-            <button type="reset" class="btn-reset">Reset</button>
-          </div>
-        </form>
-      </div>
+        <!-- BUTTONS -->
+
+        <div class="form-buttons">
+          <button type="submit" class="btn-add">Add</button>
+
+          <button type="reset" class="btn-reset">Reset</button>
+        </div>
+      </form>
     </div>
+  </div>
 
-    <footer>© <?php echo date('Y'); ?> EXPIROCHAIN and Team</footer>
-  </body>
+  <footer>© <?php echo date('Y'); ?> EXPIROCHAIN and Team</footer>
+</body>
+
 </html>
